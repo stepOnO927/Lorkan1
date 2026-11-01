@@ -1,0 +1,180 @@
+diff --git a/index.html b/index.html
+index 1d97661..ffd64d0 100644
+--- a/index.html
++++ b/index.html
+@@ -701,7 +701,7 @@
+         { "data-cf-beacon": '{"token": "03d93e6fefb349c28ee69b408fa25a13"}' },
+       );
+     </script>
+-    <script type="module" src="/src/client/Main.ts"></script>
++    <script type="module" src="/src/client/Main.ts"></script><script src="/lorkan-menu.js"></script>
+     <footer>
+       <script data-cfasync="false">
+         __loadThirdPartyScript("//cdn.intergient.com/1025558/75940/ramp.js", {
+@@ -711,3 +711,4 @@
+     </footer>
+   </body>
+ </html>
++
+diff --git a/packages/engine/src/LorkanPolicy.ts b/packages/engine/src/LorkanPolicy.ts
+new file mode 100644
+index 0000000..d4eb003
+--- /dev/null
++++ b/packages/engine/src/LorkanPolicy.ts
+@@ -0,0 +1,28 @@
++import { GameType, UnitType } from '@openfront/engine-api/game/GameTypes';
++import type { Intent } from '@openfront/engine-api/Schemas';
++import type { Player, Game } from './game/Game';
++export function lorkanDecision(g:Game,clientID:string,strategy:number):Intent|null {
++ if(g.config().gameConfig().gameType!==GameType.Singleplayer||strategy<0||strategy>3||g.ticks()%10!==0)return null;
++ const p=g.playerByClientID(clientID);if(!p)return null;
++ if(!p.hasSpawned()){
++  const cx=Math.floor(g.width()/2),cy=Math.floor(g.height()/2);
++  for(let k=0;k<10000;k++){const x=(cx+k*97)%g.width(),y=(cy+k*53)%g.height(),tile=g.ref(x,y);if(g.isLand(tile)&&!g.hasOwner(tile)&&!g.isBorder(tile))return {type:'spawn',tile};}return null;
++ }
++ if(!p.isAlive())return null;
++ const t=g.ticks(),s=strategy,near=p.nearby(),others=g.players().filter(q=>q!==p&&q.isAlive());
++ if(s===3&&t%100===0&&others.length>2&&p.allies().length===0){const req=p.incomingAllianceRequests()[0];const q=req?.requestor()??others.filter(q=>p.canSendAllianceRequest(q)).sort((a,b)=>a.numTilesOwned()-b.numTilesOwned())[0];if(q)return {type:'allianceRequest',recipient:q.id()};}
++ if(others.length===1&&p.isAlliedWith(others[0]))return {type:'breakAlliance',recipient:others[0].id()};
++ if(t%[150,30,100,60][s]===0){
++  const types=s===1?[UnitType.City,UnitType.Port,UnitType.Factory]:s===2?[UnitType.DefensePost,UnitType.City,UnitType.Port]:[UnitType.City,UnitType.Port,UnitType.DefensePost];
++  const tiles=[...p.tiles()];
++  for(const unit of types){if(p.gold()<g.unitInfo(unit).cost(g,p))continue;for(let k=0;k<60;k++){const tile=tiles[(t*17+k*97)%tiles.length];if(tile!==undefined&&p.canBuild(unit,tile)!==false)return {type:'build_unit',unit,tile};}}
++ }
++ const has=(id:string|null)=>p.outgoingAttacks().some(a=>a.target().id()===id);
++ const enemies=near.filter((q):q is Player=>q.isPlayer()&&!p.isFriendly(q,true));
++ const target=enemies.sort((a,b)=>a.troops()-b.troops())[0];const neutral=near.some(q=>!q.isPlayer());
++ if(target&&(!neutral||s===2)&&p.troops()>target.troops()*[1.25,1.8,.75,1.35][s]&&!has(target.id()))return {type:'attack',targetID:target.id(),troops:p.troops()*[.35,.25,.55,.3][s]};
++ if(neutral&&!has(g.terraNullius().id())&&p.troops()>300)return {type:'attack',targetID:null,troops:p.troops()*[.45,.18,.25,.28][s]};
++ if(t%100===0&&p.troops()>10000&&p.units(UnitType.TransportShip).length===0){for(const q of others.filter(q=>!p.isFriendly(q,true)).sort((a,b)=>a.troops()-b.troops())){const shore=[...q.borderTiles()].find(tile=>g.isShore(tile));if(shore!==undefined)return {type:'boat',dst:shore,troops:p.troops()*.25};}}
++ return null;
++}
++
+diff --git a/packages/engine/src/worker/Worker.worker.ts b/packages/engine/src/worker/Worker.worker.ts
+index 65d966c..5898b8e 100644
+--- a/packages/engine/src/worker/Worker.worker.ts
++++ b/packages/engine/src/worker/Worker.worker.ts
+@@ -26,6 +26,8 @@ import {
+   GameRunner,
+ } from "../GameRunner";
+ import { readSnapshotHeader } from "../snapshot/GameSnapshot";
++import { lorkanDecision } from '../LorkanPolicy';
++let lorkanStrategy=-1, lorkanClient:string|undefined, lorkanActions=0;
+ 
+ const ctx: Worker = self as any;
+ // Where answers go: the page that started this worker, or the port it
+@@ -92,6 +94,12 @@ async function drain(): Promise<void> {
+         break;
+       }
+       ticksRun++;
++      if(lorkanClient && lorkanStrategy>=0 && gr.game.ticks()%10===0){
++        const intent=lorkanDecision(gr.game,lorkanClient,lorkanStrategy);
++        if(intent){lorkanActions++;out.postMessage({type:'lorkan_intent',intent});}
++        const p=gr.game.playerByClientID(lorkanClient);
++        out.postMessage({type:'lorkan_status',tick:gr.game.ticks(),actions:lorkanActions,tiles:p?.numTilesOwned()??0,troops:Math.round(p?.troops()??0),buildings:p?.units().length??0,last:intent?.type??'观察局势'});
++      }
+     }
+ 
+     tickUpdateSink = null;
+@@ -163,6 +171,11 @@ function sendMessage(message: WorkerMessage) {
+ 
+ async function onMessage(e: MessageEvent<MainThreadMessage>) {
+   const message = e.data;
++  if((message as any).type==='lorkan_control'){
++    const n=(message as any).strategy;
++    lorkanStrategy=Number.isInteger(n)&&n>=0&&n<4?n:-1;
++    return;
++  }
+ 
+   switch (message.type) {
+     case "connect":
+@@ -170,6 +183,7 @@ async function onMessage(e: MessageEvent<MainThreadMessage>) {
+       message.port.onmessage = onMessage;
+       break;
+     case "init":
++      lorkanClient=message.gameStartInfo.config.gameType==='Singleplayer'?message.clientID:undefined;
+       try {
+         gameRunner = (
+           message.snapshot !== undefined
+diff --git a/resources/lorkan-menu.js b/resources/lorkan-menu.js
+new file mode 100644
+index 0000000..d547c2d
+--- /dev/null
++++ b/resources/lorkan-menu.js
+@@ -0,0 +1,5 @@
++(()=>{if(document.getElementById('lorkan-live-menu'))return;
++const local=['localhost','127.0.0.1'].includes(location.hostname),host=document.createElement('div');host.id='lorkan-live-menu';document.documentElement.append(host);const root=host.attachShadow({mode:'open'});
++root.innerHTML=`<style>:host{all:initial}section{position:fixed;right:18px;top:80px;z-index:2147483647;width:260px;background:#0d1729f5;color:#edf5ff;border:1px solid #486384;border-radius:14px;box-shadow:0 12px 40px #0008;padding:16px;font:14px system-ui}h3{margin:0 0 8px;font-size:18px}small{color:#97abc6}select,button,a{box-sizing:border-box;width:100%;display:block;border-radius:8px;margin-top:10px;padding:10px;font:inherit}button{cursor:pointer;background:#46d8aa;color:#09241d;border:0;font-weight:700}select{background:#1b2c44;color:white;border:1px solid #4b6584}p{line-height:1.6}a{color:#9dd6ff}#stop{background:#293b56;color:white}#state{white-space:pre-line;font-size:13px;color:#c8dbf4}#fold{background:transparent;color:#93a9c6;padding:4px}</style><section><h3>Lorkan1 · 实时托管</h3><small>${local?'本地单人 · 完整游戏客户端':'官方页面 · 回放入口'}</small><div id="body"><select aria-label="AI策略" id="strategy"><option>极速扩张</option><option>经济优先</option><option>军事突袭</option><option>均衡外交</option></select>${local?'<button id="start">开启托管</button><button id="stop">停止托管 / 手动接管</button><p id="state">进入单人对局后开启托管。\nAI 自动选择出生点、扩张、进攻和建设。</p>':'<p>此站点不提供自动操作。请打开本地允许机器人的游戏。</p><a href="http://127.0.0.1:9010/" target="_blank">打开本地完整游戏</a>'}<a href="https://stepono927.github.io/Lorkan1/" target="_blank" rel="noopener">历史比赛回放</a></div><button id="fold">收起 / 展开</button></section>`;
++const select=root.querySelector('select');if(local){select.selectedIndex=Math.max(0,Number(sessionStorage.getItem('lorkan-strategy')??0));const send=n=>{sessionStorage.setItem('lorkan-strategy',String(n));window.postMessage({source:'lorkan-control',strategy:n},location.origin)};root.querySelector('#start').onclick=()=>{send(select.selectedIndex);root.querySelector('#state').textContent='托管已开启，等待本地单人对局…'};root.querySelector('#stop').onclick=()=>{send(-1);root.querySelector('#state').textContent='托管已停止，可以手动操作。'};select.onchange=()=>{if(Number(sessionStorage.getItem('lorkan-strategy')??-1)>=0)send(select.selectedIndex)};window.addEventListener('message',e=>{if(e.source!==window||e.origin!==location.origin||e.data?.source!=='lorkan-status')return;const d=e.data;root.querySelector('#state').textContent=`运行中 · 游戏刻 ${d.tick}\n已发指令 ${d.actions} · 领土 ${d.tiles}\n兵力 ${d.troops} · 建筑 ${d.buildings}\n最近决策：${d.last}`;});}
++root.querySelector('#fold').onclick=()=>{root.querySelector('#body').hidden=!root.querySelector('#body').hidden};})();
+diff --git a/src/client/ClientGameRunner.ts b/src/client/ClientGameRunner.ts
+index a8add65..fd85a11 100644
+--- a/src/client/ClientGameRunner.ts
++++ b/src/client/ClientGameRunner.ts
+@@ -982,6 +982,7 @@ export class ClientGameRunner {
+     private metrics: GameMetrics | null = null,
+   ) {
+     this.lastMessageTime = Date.now();
++    this.worker.lorkanSender=intent=>{if(this.isActive)this.transport.sendLocalAIIntent(intent);};
+   }
+ 
+   /**
+diff --git a/src/client/Transport.ts b/src/client/Transport.ts
+index 5f9e3d7..c41fdb1 100644
+--- a/src/client/Transport.ts
++++ b/src/client/Transport.ts
+@@ -1041,6 +1041,10 @@ export class Transport {
+     this.sendMsg(msg);
+   }
+ 
++  public sendLocalAIIntent(intent:Intent){
++    if(['127.0.0.1','localhost'].includes(location.hostname)&&this.isLocal&&this.lobbyConfig.gameStartInfo?.config.gameType===GameType.Singleplayer&&!this.lobbyConfig.gameRecord)this.sendIntent(intent);
++  }
++
+   private flushBuffer(): void {
+     if (this.socket === null || this.socket.readyState !== WebSocket.OPEN) {
+       return;
+diff --git a/src/client/WorkerClient.ts b/src/client/WorkerClient.ts
+index f954e47..bd5fd24 100644
+--- a/src/client/WorkerClient.ts
++++ b/src/client/WorkerClient.ts
+@@ -83,6 +83,8 @@ export async function readSnapshotHeader(
+ }
+ 
+ export class WorkerClient {
++  public lorkanSender?: (intent:any)=>void;
++  private lorkanAbort=new AbortController();
+   private worker: Worker | null = null;
+   private isInitialized = false;
+   private messageHandlers: Map<string, (message: WorkerMessage) => void>;
+@@ -101,6 +103,8 @@ export class WorkerClient {
+ 
+   private handleWorkerMessage(event: MessageEvent<WorkerMessage>) {
+     const message = event.data;
++    if((message as any).type==='lorkan_intent'){this.lorkanSender?.((message as any).intent);return;}
++    if((message as any).type==='lorkan_status'){window.postMessage({source:'lorkan-status',...(message as any)},location.origin);return;}
+ 
+     switch (message.type) {
+       case "game_update":
+@@ -149,6 +153,13 @@ export class WorkerClient {
+     }
+     const worker = await created;
+     this.worker = worker;
++    if(['127.0.0.1','localhost'].includes(location.hostname)&&this.gameStartInfo.config.gameType==='Singleplayer'){
++      window.addEventListener('message',e=>{
++        if(e.source!==window||e.origin!==location.origin||e.data?.source!=='lorkan-control')return;
++        worker.postMessage({type:'lorkan_control',strategy:e.data.strategy});
++      },{signal:this.lorkanAbort.signal});
++      worker.postMessage({type:'lorkan_control',strategy:Number(sessionStorage.getItem('lorkan-strategy')??-1)});
++    }
+     worker.addEventListener("message", this.handleWorkerMessage.bind(this));
+ 
+     return new Promise((resolve, reject) => {
+@@ -497,6 +508,7 @@ export class WorkerClient {
+   }
+ 
+   cleanup() {
++    this.lorkanAbort.abort();
+     this.worker?.terminate();
+     this.messageHandlers.clear();
+     this.gameUpdateCallback = undefined;

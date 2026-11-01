@@ -22,10 +22,27 @@ GitHub Pages：仓库 Settings → Pages → Deploy from a branch → main / (ro
 引擎及其源码遵循上游 AGPL-3.0 和素材许可。本项目不打包引擎或上游游戏素材。
 将 tournament.ts 放到该版本引擎根目录；按照上游说明安装依赖；在引擎两级上方创建 outputs 并放入 results-first24.json；设置 ROUNDS=48，执行 node --import tsx tournament.ts。策略只提交合法意图，由引擎验证和执行；18000刻无引擎胜者记未决。
 
-## Chrome 小菜单
+## v0.2 完整游戏实时托管
 
-extension 是 Manifest V3 扩展源码。Chrome 扩展管理页开启开发者模式后加载 extension 文件夹（需用户自行安装）。FrontWars 官方页面仅显示回放入口；本地页面可启动四策略自动赛。不是官方服代打插件，也尚未接管原版客户端。
+本地运行完整 OpenFront 网页客户端（不是 FrontWars 官方服务，版本和界面可能不同）。游戏地图、军队、建筑、经济、外交和战斗使用上游游戏引擎与渲染。菜单通过正常单人指令通道控制正在看的对局；不再启动另一个抽象回放代替当前游戏。
 
-### 本地自动赛服务
+本机地址：http://127.0.0.1:9010/
 
-本机已配置的引擎在 work/OpenFrontIO。运行 node local-service.cjs，再访问 http://127.0.0.1:8765/；扩展菜单的本地自动赛按钮调用该服务。其他电脑需将 OPENFRONT_DIR 设为已安装依赖且放入 tournament.ts 的引擎目录，并按上文放置 outputs/results-first24.json。状态显示在 /api/status。此功能运行四策略自动赛，不接管官方游戏客户端。
+进入单人模式，选择地图和难度，右侧选策略并点击“开启托管”。AI 自动选出生点、扩张、攻击、建设城市/港口/要塞，按策略处理结盟与渡海。点击“停止托管 / 手动接管”停止新指令；已经发出的进攻仍由游戏继续结算。策略为固定规则，尚不支持核战、防空、铁路和全套海军战术，不保证打赢高手。
+
+### Chrome 安装
+
+1. 下载本仓库，解压。
+2. 在 Chrome 打开 chrome://extensions，开启开发者模式。
+3. 点击“加载已解压的扩展程序”，选择 extension 文件夹。
+4. 打开本地游戏；菜单自动出现。FrontWars 官方页面只显示回放和本地游戏入口。
+
+扩展无额外 API 权限，只在清单列出的游戏和本地主机页面注入菜单。为方便未安装扩展时验证，本地修改版也内置同一菜单，两者自动去重。
+
+### 复现完整本地游戏
+
+使用上面固定提交的 OpenFront 仓库，在根目录执行 git apply /path/to/local-game.patch，按上游文档安装依赖，然后执行 node node_modules/vite/bin/vite.js --host 127.0.0.1 --port 9010 --strictPort。Start-LocalGame.ps1 为本机现有目录准备启动入口；其他目录可设置 OPENFRONT_DIR。修改源码通过 local-game.patch 提供，并遵循上游 AGPL-3.0；见 LICENSE-OpenFront。上游素材保留原许可与版权标识。
+
+### 验证
+
+TypeScript 检查通过；四种策略各在真实引擎执行1000刻，均自动出生、扩张并建立建筑；非单人模式返回无操作。完整网页实际验证了自动出生、攻击、建筑、切换策略和停止托管。扩展安装与 Chrome 页面验证另行记录。
