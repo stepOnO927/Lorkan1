@@ -1,0 +1,44 @@
+{
+  "method": "Bounded parameter search, not neural-model training",
+  "difficulty": "Impossible",
+  "running": false,
+  "ticks": 1800,
+  "generations": [
+    {
+      "gen": 1,
+      "candidates": [
+        {
+          "expansionScale": 1,
+          "attackScale": 1,
+          "cityTiles": 4500
+        },
+        {
+          "expansionScale": 0.75,
+          "attackScale": 1.2,
+          "cityTiles": 4500
+        },
+        {
+          "expansionScale": 1.2,
+          "attackScale": 1.1,
+          "cityTiles": 3500
+        }
+      ],
+      "trainingScores": [
+        1.3878722222222222,
+        1.4433,
+        1.4175805555555554
+      ],
+      "best": 1,
+      "validation": {
+        "old": 0.5810888888888889,
+        "next": 1.626525
+      },
+      "accepted": true,
+      "champion": {
+        "expansionScale": 0.75,
+        "attackScale": 1.2,
+        "cityTiles": 4500
+      }
+    }
+  ]
+}

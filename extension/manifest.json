@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Lorkan1 本地 AI 菜单",
-  "version": "0.2.0",
+  "version": "0.3.1",
   "description": "完整本地 OpenFront 单人对局实时托管菜单",
   "permissions": [],
   "content_scripts": [

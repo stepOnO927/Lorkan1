@@ -16,11 +16,260 @@ index 1d97661..ffd64d0 100644
    </body>
  </html>
 +
+diff --git a/lorkan-benchmark.ts b/lorkan-benchmark.ts
+new file mode 100644
+index 0000000..4071dca
+--- /dev/null
++++ b/lorkan-benchmark.ts
+@@ -0,0 +1,29 @@
++import {GameMode,GameType,GameMapType,GameMapSize,Difficulty,UnitType} from '@openfront/engine-api/game/GameTypes';
++import {createGameRunner} from './packages/engine/src/GameRunner';
++import {loadMapFiles} from '@openfront/shared/GameMapLoader';
++import {NodeGameMapLoader} from './tests/perf/fullgame/NodeGameMapLoader';
++import {lorkanDecision as oldPolicy} from './packages/engine/src/LorkanPolicyV02';
++import {lorkanDecision as newPolicy} from './packages/engine/src/LorkanPolicy';
++import fs from 'node:fs';
++const version=process.env.POLICY??'baseline',policy=version==='baseline'?oldPolicy:newPolicy;
++const rows:any[]=[];console.debug=()=>{};
++for(let i=0;i<Number(process.env.GAMES??4);i++){
++ const seed=i+Number(process.env.SEED_START??0);
++ const map=seed%2?GameMapType.Europe:GameMapType.World;
++ const config:any={gameMode:GameMode.FFA,gameType:GameType.Singleplayer,gameMap:map,gameMapSize:GameMapSize.Compact,difficulty:Difficulty.Impossible,nations:'default',bots:40,infiniteGold:false,infiniteTroops:false,instantBuild:false,randomSpawn:false,startingGold:Number(process.env.START_GOLD??0),donateGold:false,donateTroops:false};
++ const start:any={gameID:'LORKAN-TEST-'+seed,lobbyCreatedAt:0,config,players:[{clientID:'LOCALAI1',username:'Lorkan',isLobbyCreator:true,clanTag:null}]};
++ const files=await loadMapFiles(new NodeGameMapLoader('resources/maps'),map,GameMapSize.Compact);
++ let error='';const r=await createGameRunner(start,'LOCALAI1',files,u=>{if('errMsg'in u)error=u.errMsg});const g=r.game,actions:any={};const t0=Date.now();let maxTiles=0;
++ for(let t=0;t<Number(process.env.TICKS??3600);t++){
++  const a=version==='baseline'?oldPolicy(g,'LOCALAI1',1):newPolicy(g,'LOCALAI1',1,process.env.TUNING?JSON.parse(process.env.TUNING):undefined);if(a){const key=a.type==='build_unit'?a.unit:a.type;actions[key]=(actions[key]??0)+1;}
++  r.addTurn({turnNumber:t,intents:a?[{...a,clientID:'LOCALAI1'}]:[]});if(!r.executeNextTick()||error)throw Error(error||'tick failure');
++  const p=g.playerByClientID('LOCALAI1');maxTiles=Math.max(maxTiles,p?.numTilesOwned()??0);if(g.getWinner()||(p?.hasSpawned()&&!p.isAlive()))break;
++ }
++ const p=g.playerByClientID('LOCALAI1')!,winner:any=g.getWinner();
++ const stations=[...g.railNetwork().stationManager().getAll()].filter(s=>s.unit.owner()===p);
++ const result={version,seed,map,difficulty:config.difficulty,startingGold:config.startingGold,bots:config.bots,ticks:g.ticks(),win:typeof winner?.clientID==='function'&&winner.clientID()==='LOCALAI1',alive:p.isAlive(),tiles:p.numTilesOwned(),maxTiles,gold:String(p.gold()),trainGold:String(p.trainGold()),tradeGold:String(p.tradeGold()),factories:p.units(UnitType.Factory).length,connectedStations:stations.filter(s=>s.getRailroads().size>0).length,stations:stations.length,actions,seconds:(Date.now()-t0)/1000};
++ rows.push(result);console.log(JSON.stringify(result));fs.writeFileSync(`../../outputs/benchmark-${version}.json`,JSON.stringify(rows,null,2));
++}
++
++
++
+diff --git a/lorkan-capabilities.ts b/lorkan-capabilities.ts
+new file mode 100644
+index 0000000..b6a9ed2
+--- /dev/null
++++ b/lorkan-capabilities.ts
+@@ -0,0 +1,34 @@
++// Controlled late-game fixture, NOT a win-rate benchmark: both sides start with mature territory and resources.
++import {GameType,GameMapType,GameMapSize,GameMode,Difficulty,UnitType} from '@openfront/engine-api/game/GameTypes';
++import {createGameRunner} from './packages/engine/src/GameRunner';
++import {loadMapFiles} from '@openfront/shared/GameMapLoader';
++import {NodeGameMapLoader} from './tests/perf/fullgame/NodeGameMapLoader';
++import {lorkanDecision} from './packages/engine/src/LorkanPolicy';
++import {ConstructionExecution} from './packages/engine/src/execution/ConstructionExecution';
++import fs from 'node:fs';
++const config:any={gameType:GameType.Singleplayer,gameMode:GameMode.FFA,gameMap:GameMapType.World,gameMapSize:GameMapSize.Compact,difficulty:Difficulty.Impossible,nations:'disabled',bots:0,startingGold:200000000,infiniteGold:false,infiniteTroops:false,instantBuild:false,randomSpawn:false,donateGold:false,donateTroops:false};
++const start:any={gameID:'CAPABILITY-FIXTURE',lobbyCreatedAt:0,config,players:['LOCALAI1','ENEMY001'].map(clientID=>({clientID,username:clientID,clanTag:null,isLobbyCreator:false}))};
++const r=await createGameRunner(start,'LOCALAI1',await loadMapFiles(new NodeGameMapLoader('resources/maps'),config.gameMap,config.gameMapSize),u=>{if('errMsg'in u)throw Error(u.errMsg)}),g=r.game;
++const p=g.playerByClientID('LOCALAI1')!,enemy=g.playerByClientID('ENEMY001')!;
++function nearest(x:number,y:number){for(let radius=0;radius<100;radius++)for(let dx=-radius;dx<=radius;dx++){const yy=y+radius,xx=x+dx;if(g.isValidCoord(xx,yy)&&g.isLand(g.ref(xx,yy)))return g.ref(xx,yy);}throw Error('land missing');}
++r.addTurn({turnNumber:0,intents:[{type:'spawn',clientID:'LOCALAI1',tile:nearest(250,150)},{type:'spawn',clientID:'ENEMY001',tile:nearest(760,120)}]});r.executeNextTick();
++for(let wait=0;wait<5;wait++){r.addTurn({turnNumber:g.ticks(),intents:[]});r.executeNextTick();}
++for(let y=0;y<g.height();y++)for(let x=0;x<g.width();x++){const tile=g.ref(x,y);if(g.isLand(tile)){const owner=g.owner(tile);if(owner.isPlayer())owner.relinquish(tile);(x<g.width()/2?p:enemy).conquer(tile);}}
++for(const owner of [p,enemy]){
++ owner.removeGold(owner.gold());owner.addGold(200000000n);const tiles=[...owner.tiles()];let added=0;
++ for(const type of [UnitType.City,UnitType.City,UnitType.City,UnitType.City,UnitType.City,UnitType.City,UnitType.MissileSilo]){
++  for(let k=0;k<300;k++){const tile=tiles[(k*997+added*101)%tiles.length];const valid=owner.canBuild(type,tile);if(valid!==false){g.addExecution(new ConstructionExecution(owner,type,valid));for(let wait=0;wait<3;wait++){r.addTurn({turnNumber:g.ticks(),intents:[]});r.executeNextTick();}added++;break;}}
++ }
++}
++const actions:any={},seen=new Set<string>();let maxConnected=0,maxTrain=0n,maxTrade=0n,maxShips=0;
++for(let t=1;t<=2400;t++){
++ const a=lorkanDecision(g,'LOCALAI1',1);if(a){const key=a.type==='build_unit'?a.unit:a.type;actions[key]=(actions[key]??0)+1;}
++ r.addTurn({turnNumber:g.ticks(),intents:a?[{...a,clientID:'LOCALAI1'}]:[]});if(!r.executeNextTick())throw Error('tick failed');
++ for(const u of p.units())seen.add(u.type());maxShips=Math.max(maxShips,p.units(UnitType.Warship).length);
++ maxTrain=p.trainGold()>maxTrain?p.trainGold():maxTrain;maxTrade=p.tradeGold()>maxTrade?p.tradeGold():maxTrade;
++ if(t%100===0)maxConnected=Math.max(maxConnected,[...g.railNetwork().stationManager().getAll()].filter(s=>s.unit.owner()===p&&s.getRailroads().size>0).length);
++}
++const result={fixture:'Mature territory + equal 200M starting gold; enemy stationary; not a competition',actions,seen:[...seen],maxConnected,maxShips,trainGold:String(maxTrain),tradeGold:String(maxTrade)};
++fs.writeFileSync('../../outputs/capabilities-v03.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));
++if(!seen.has(UnitType.Factory)||maxConnected===0||maxTrain===0n||!seen.has(UnitType.SAMLauncher)||!seen.has(UnitType.Warship)||![UnitType.AtomBomb,UnitType.HydrogenBomb,UnitType.MIRV].some(t=>seen.has(t)))throw Error('Capability validation incomplete');
++
+diff --git a/lorkan-evolve.cjs b/lorkan-evolve.cjs
+new file mode 100644
+index 0000000..a760892
+--- /dev/null
++++ b/lorkan-evolve.cjs
+@@ -0,0 +1,28 @@
++// Deterministic parameter search against maximum-difficulty opponents. Validation seeds are never used to rank training candidates.
++const fs=require('node:fs'),{spawnSync}=require('node:child_process');
++const file='packages/engine/src/LorkanTuning.json',out='../../outputs';
++let champion=JSON.parse(fs.readFileSync(file)),history=[];
++try{history=JSON.parse(fs.readFileSync(`${out}/evolution-report.json`)).generations??[];}catch{}
++try{champion=JSON.parse(fs.readFileSync(`${out}/lorkan-champion.json`)).params??champion;}catch{}
++const offset=history.length;
++const generations=Number(process.env.GENERATIONS||1),ticks=Number(process.env.TRAIN_TICKS||1800);
++function evaluate(profile,label,start){
++ const p=spawnSync(process.execPath,['--import','tsx','lorkan-benchmark.ts'],{env:{...process.env,POLICY:label,TUNING:JSON.stringify(profile),GAMES:'2',TICKS:String(ticks),START_GOLD:'0',SEED_START:String(start)},encoding:'utf8',windowsHide:true,maxBuffer:8000000});
++ if(p.status!==0)throw Error(p.stderr||p.stdout);
++ const rows=JSON.parse(fs.readFileSync(`${out}/benchmark-${label}.json`));
++ const score=rows.reduce((s,r)=>s+(r.win?100:0)+(r.alive?2:0)+r.maxTiles/10000+r.ticks/ticks*.25+Math.min(.2,Number(r.trainGold)/10000000),0)/rows.length;
++ console.log(JSON.stringify({label,score,alive:rows.filter(r=>r.alive).length,wins:rows.filter(r=>r.win).length}));return {score,rows};
++}
++for(let gen=0;gen<generations;gen++){
++ const generation=offset+gen+1;
++ fs.writeFileSync(`${out}/evolution-report.json`,JSON.stringify({method:'Bounded parameter search, not neural-model training',difficulty:'Impossible',running:true,currentGeneration:generation,ticks,generations:history},null,2));
++ const stamp=Date.now().toString(36),baseSeed=100+(generation-1)*10;
++ const candidates=[champion,{...champion,expansionScale:Math.max(.5,champion.expansionScale-.15),attackScale:Math.min(1.5,champion.attackScale+.1)},{...champion,expansionScale:Math.min(1.5,champion.expansionScale+.15),attackScale:Math.max(.7,champion.attackScale-.1),cityTiles:3500}];
++ const train=candidates.map((p,i)=>evaluate(p,`evolve-${stamp}-${i}`,baseSeed));
++ let best=train.reduce((b,x,i)=>x.score>train[b].score?i:b,0),accepted=false,validation=null;
++ if(best!==0){const old=evaluate(champion,`validate-${stamp}-old`,1000+(generation-1)*10),next=evaluate(candidates[best],`validate-${stamp}-new`,1000+(generation-1)*10);validation={old:old.score,next:next.score};accepted=next.score>old.score&&next.rows.filter(r=>r.win).length>=old.rows.filter(r=>r.win).length;if(accepted)champion=candidates[best];}
++ history.push({gen:generation,candidates,trainingScores:train.map(x=>x.score),best,validation,accepted,champion});
++ fs.writeFileSync(`${out}/lorkan-champion.json`,JSON.stringify({generation,params:champion,accepted},null,2));
++ fs.writeFileSync(`${out}/evolution-report.json`,JSON.stringify({method:'Bounded parameter search, not neural-model training',difficulty:'Impossible',running:gen<generations-1,currentGeneration:generation,ticks,generations:history},null,2));
++ console.log(JSON.stringify({generation,accepted,champion}));
++}
+diff --git a/packages/engine/src/LorkanArsenal.ts b/packages/engine/src/LorkanArsenal.ts
+new file mode 100644
+index 0000000..3bb48ce
+--- /dev/null
++++ b/packages/engine/src/LorkanArsenal.ts
+@@ -0,0 +1,90 @@
++import {UnitType} from '@openfront/engine-api/game/GameTypes';
++import type {Intent} from '@openfront/engine-api/Schemas';
++import {PseudoRandom} from '@openfront/engine-lib/PseudoRandom';
++import type {Game,Player} from './game/Game';
++import {NationStructurePlacement} from './execution/nation/NationStructurePlacement';
++import {blastHitsFriendlyLand,enemyLandBlastCoverage,isNukeAlreadyLandingNear,isTrajectoryInterceptableBySam} from './execution/nation/NationNukePlanning';
++import {mirvGetsThrough} from './execution/nation/NationMIRVBehavior';
++
++export function arsenalDecision(g:Game,p:Player,strategy:number,cityTiles=4500):Intent|null{
++ const t=g.ticks(),cities=p.units(UnitType.City),factories=p.units(UnitType.Factory),ports=p.units(UnitType.Port),sams=p.units(UnitType.SAMLauncher),silos=p.units(UnitType.MissileSilo);
++ const enemies=g.players().filter(q=>q!==p&&!p.isFriendly(q,true)&&q.isAlive());
++ const afford=(type:UnitType)=>!g.config().isUnitDisabled(type)&&p.gold()>=g.unitInfo(type).cost(g,p);
++ const ready=(type:UnitType)=>p.units(type).filter(u=>u.isActive()&&!u.isUnderConstruction());
++ const incoming=p.incomingAttacks().reduce((n,a)=>n+a.troops(),0);
++ if(t%30===0&&incoming>p.troops()*.4&&p.units(UnitType.DefensePost).length<Math.max(1,Math.ceil(cities.length/2))&&afford(UnitType.DefensePost)){
++  const border=[...p.borderTiles()];
++  for(let k=0;k<40;k++){const tile=border[(t+k*97)%border.length];if(tile===undefined)continue;const valid=p.canBuild(UnitType.DefensePost,tile);if(valid!==false)return {type:'build_unit',unit:UnitType.DefensePost,tile:valid};}
++ }
++ const placement=new NationStructurePlacement(new PseudoRandom(t*7919+p.smallID()),g,p);let prepared=false;
++ function build(type:UnitType):Intent|null{
++  if(!afford(type))return null;
++  if(!prepared){placement.startRound();prepared=true;}
++  let tile=placement.spawnTile(type);
++  if(type===UnitType.Factory){
++   const ownStations=p.units(UnitType.City,UnitType.Port,UnitType.Factory),range2=g.config().trainStationMaxRange()**2,min2=g.config().trainStationMinRange()**2;
++   const tiles=[...p.tiles()],candidates:{tile:number;score:number}[]=[];
++   for(let k=0;k<160;k++){
++    const c=tiles[(t*17+k*997)%tiles.length];if(c===undefined)continue;
++    const reachable=ownStations.filter(u=>{const d=g.euclideanDistSquared(c,u.tile());return d>=min2&&d<=range2});
++    if(!reachable.some(u=>u.type()!==UnitType.Factory))continue;
++    const score=reachable.reduce((s,u)=>s+(u.type()===UnitType.Factory?1:4),0);
++    candidates.push({tile:c,score});
++   }
++   tile=null;
++   for(const c of candidates.sort((a,b)=>b.score-a.score).slice(0,16)){
++    if(p.canBuild(type,c.tile)!==false&&g.railNetwork().computeGhostRailPaths(type,c.tile).length>0){tile=c.tile;break;}
++   }
++  }
++  return tile===null?null:{type:'build_unit',unit:type,tile};
++ }
++ // Defend valuable infrastructure before discretionary spending when missiles are present.
++ const nuclearThreat=enemies.some(q=>q.units(UnitType.MissileSilo).length>0)||g.units(UnitType.AtomBomb,UnitType.HydrogenBomb,UnitType.MIRV).some(u=>!p.isFriendly(u.owner(),true));
++ if(t%30===0&&cities.length>=2){
++  const uncovered=p.units([UnitType.City,UnitType.Factory,UnitType.Port,UnitType.MissileSilo]).filter(u=>!sams.some(s=>g.euclideanDistSquared(s.tile(),u.tile())<=g.config().samRange(s.level())**2));
++  if(uncovered.length>=(nuclearThreat?1:4)&&sams.length<Math.max(1,Math.ceil(cities.length*.65))){const a=build(UnitType.SAMLauncher);if(a)return a;}
++ }
++ // A bounded nuclear budget: avoid friendly blasts, duplicate targets and interceptable single shots.
++ if(t%100===0&&ready(UnitType.MissileSilo).some(u=>!u.isInCooldown())&&cities.length>=3){
++  const targets=enemies.sort((a,b)=>b.units(UnitType.City).length-a.units(UnitType.City).length);
++  for(const q of targets.slice(0,3)){
++   const structures=q.units([UnitType.SAMLauncher,UnitType.MissileSilo,UnitType.Factory,UnitType.City]);
++   for(const unit of [UnitType.HydrogenBomb,UnitType.AtomBomb] as const){
++    if(!afford(unit)||p.gold()<g.unitInfo(unit).cost(g,p)*12n/10n)continue;
++    for(const u of structures.slice(0,8)){
++     const tile=u.tile();if(p.canBuild(unit,tile)===false||isNukeAlreadyLandingNear(g,tile,unit)||enemyLandBlastCoverage(g,p,tile,unit)<.45||blastHitsFriendlyLand(g,p,tile,unit))continue;
++     if(ready(UnitType.MissileSilo).every(s=>isTrajectoryInterceptableBySam(g,p,s.tile(),tile)))continue;
++     return {type:'build_unit',unit,tile,rocketDirectionUp:true};
++    }
++   }
++   if(q.numTilesOwned()>30000&&q.units(UnitType.City).length>=6&&afford(UnitType.MIRV)&&mirvGetsThrough(g,p,q)&&p.units(UnitType.MIRV).length===0){const tile=q.units(UnitType.City)[0]?.tile();if(tile!==undefined&&p.canBuild(UnitType.MIRV,tile)!==false)return {type:'build_unit',unit:UnitType.MIRV,tile};}
++  }
++ }
++ // Escort trade and transports, then contest hostile coastal traffic.
++ if(t%50===0&&ready(UnitType.Port).length){
++  const ships=ready(UnitType.Warship),hostile=enemies.flatMap(q=>q.units(UnitType.Warship,UnitType.TransportShip,UnitType.TradeShip));
++  const desired=Math.min(6,Math.max(1,Math.ceil(ports.length/2))+(hostile.length?1:0));
++  if(ships.length<desired&&afford(UnitType.Warship))for(const port of ready(UnitType.Port)){
++   for(let k=0;k<80;k++){const x=g.x(port.tile())+(k*17%101)-50,y=g.y(port.tile())+(k*31%101)-50;if(!g.isValidCoord(x,y))continue;const tile=g.ref(x,y);if(g.isWater(tile)&&p.canBuild(UnitType.Warship,tile)!==false)return {type:'build_unit',unit:UnitType.Warship,tile};}
++  }
++  if(ships.length&&hostile.length){const target=hostile.sort((a,b)=>g.euclideanDistSquared(ships[0].tile(),a.tile())-g.euclideanDistSquared(ships[0].tile(),b.tile()))[0];if(g.isWater(target.tile()))return {type:'move_warship',unitIds:ships.map(u=>u.id()),tile:target.tile()};}
++ }
++ if(t%30!==0)return null;
++ // Quotas stop the city-first loop from starving factories, ports and technology.
++ const goals:[UnitType,number][]=[
++  [UnitType.City,Math.min(16,Math.max(2,Math.ceil(p.numTilesOwned()/cityTiles)))],
++  [UnitType.Factory,Math.max(1,Math.ceil(cities.length*(strategy===1?.65:.45)))],
++  [UnitType.Port,Math.max(1,Math.ceil(cities.length*.5))],
++  [UnitType.MissileSilo,cities.length>=4?Math.min(3,Math.ceil(cities.length/6)):0],
++  [UnitType.SAMLauncher,cities.length>=3?Math.ceil(cities.length*.4):0],
++ ];
++ const ranked=goals.map(([type,goal])=>({type,score:goal?1-p.units(type).length/goal:-1})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
++ for(const x of ranked){const a=build(x.type);if(a)return a;}
++ // Once topology is useful, raise productive stations and covered defenses.
++ for(const type of [UnitType.Factory,UnitType.City,UnitType.SAMLauncher,UnitType.MissileSilo,UnitType.Port]){
++  const u=ready(type).filter(u=>u.level()<(type===UnitType.MissileSilo?3:4)&&p.canUpgradeUnit(u)).sort((a,b)=>a.level()-b.level())[0];
++  if(u&&p.gold()>g.unitInfo(type).cost(g,p)*2n)return {type:'upgrade_structure',unit:type,unitId:u.id()};
++ }
++ return null;
++}
++
 diff --git a/packages/engine/src/LorkanPolicy.ts b/packages/engine/src/LorkanPolicy.ts
+new file mode 100644
+index 0000000..7adb81e
+--- /dev/null
++++ b/packages/engine/src/LorkanPolicy.ts
+@@ -0,0 +1,38 @@
++import { GameType, UnitType } from '@openfront/engine-api/game/GameTypes';
++import type { Intent } from '@openfront/engine-api/Schemas';
++import type { Player, Game } from './game/Game';
++import {arsenalDecision} from './LorkanArsenal';
++import defaults from './LorkanTuning.json';
++export function lorkanDecision(g:Game,clientID:string,strategy:number,tuning=defaults):Intent|null {
++ if(g.config().gameConfig().gameType!==GameType.Singleplayer||strategy<0||strategy>3||g.ticks()%10!==0)return null;
++ const p=g.playerByClientID(clientID);if(!p)return null;
++ if(!p.hasSpawned()){
++  if(g.ticks()<20)return null;
++  const threats=g.players().filter(q=>q!==p&&q.hasSpawned()).map(q=>q.spawnTile()).filter((t):t is number=>t!==undefined);
++  let best:number|null=null,bestScore=-Infinity;
++  for(let k=0;k<600;k++){
++   const x=(Math.floor(g.width()/2)+k*97)%g.width(),y=(Math.floor(g.height()/2)+k*53)%g.height(),tile=g.ref(x,y);
++   if(!g.isLand(tile)||g.hasOwner(tile)||g.isBorder(tile))continue;
++   let land=0;for(let dx=-20;dx<=20;dx+=10)for(let dy=-20;dy<=20;dy+=10){if(g.isValidCoord(x+dx,y+dy)){const n=g.ref(x+dx,y+dy);if(g.isLand(n)&&!g.hasOwner(n))land++;}}
++   const distance=Math.sqrt(Math.min(g.width()**2,...threats.map(t=>g.euclideanDistSquared(tile,t))));
++   const score=distance+land*3;if(score>bestScore){best=tile;bestScore=score;}
++  }
++  return best===null?null:{type:'spawn',tile:best};
++ }
++ if(!p.isAlive())return null;
++ const t=g.ticks(),s=strategy,near=p.nearby(),others=g.players().filter(q=>q!==p&&q.isAlive());
++ const incoming=p.incomingAttacks().reduce((sum,a)=>sum+a.troops(),0);
++ if(incoming>p.troops()*.5){const out=p.outgoingAttacks().filter(a=>!a.retreating()).sort((a,b)=>b.troops()-a.troops())[0];if(out)return {type:'cancel_attack',attackID:out.id()};}
++ if(s===3&&t%100===0&&others.length>2&&p.allies().length===0){const req=p.incomingAllianceRequests()[0];const q=req?.requestor()??others.filter(q=>p.canSendAllianceRequest(q)).sort((a,b)=>a.numTilesOwned()-b.numTilesOwned())[0];if(q)return {type:'allianceRequest',recipient:q.id()};}
++ if(others.length===1&&p.isAlliedWith(others[0]))return {type:'breakAlliance',recipient:others[0].id()};
++ const advanced=arsenalDecision(g,p,s,tuning.cityTiles);if(advanced)return advanced;
++ const has=(id:string|null)=>p.outgoingAttacks().some(a=>a.target().id()===id);
++ const enemies=near.filter((q):q is Player=>q.isPlayer()&&!p.isFriendly(q,true));
++ const target=enemies.sort((a,b)=>a.troops()-b.troops())[0];const neutral=near.some(q=>!q.isPlayer());
++ if(target&&(!neutral||s===2)&&p.troops()>target.troops()*[1.25,1.8,.75,1.35][s]*tuning.attackScale&&!has(target.id()))return {type:'attack',targetID:target.id(),troops:p.troops()*[.35,.25,.55,.3][s]};
++ const exposed=enemies.some(q=>q.troops()>p.troops()*1.2)||incoming>p.troops()*.2;
++ if(neutral&&!has(g.terraNullius().id())&&p.troops()>300)return {type:'attack',targetID:null,troops:p.troops()*(exposed?.06:[.3,.14,.2,.2][s])*tuning.expansionScale};
++ if(t%100===0&&incoming===0&&p.troops()>10000&&p.units(UnitType.TransportShip).length===0){for(const q of others.filter(q=>!p.isFriendly(q,true)&&p.troops()>q.troops()*3).sort((a,b)=>a.troops()-b.troops())){const shore=[...q.borderTiles()].find(tile=>g.isShore(tile));if(shore!==undefined)return {type:'boat',dst:shore,troops:p.troops()*.2};}}
++ return null;
++}
++
+diff --git a/packages/engine/src/LorkanPolicyV02.ts b/packages/engine/src/LorkanPolicyV02.ts
 new file mode 100644
 index 0000000..d4eb003
 --- /dev/null
-+++ b/packages/engine/src/LorkanPolicy.ts
++++ b/packages/engine/src/LorkanPolicyV02.ts
 @@ -0,0 +1,28 @@
 +import { GameType, UnitType } from '@openfront/engine-api/game/GameTypes';
 +import type { Intent } from '@openfront/engine-api/Schemas';
@@ -50,36 +299,60 @@ index 0000000..d4eb003
 + return null;
 +}
 +
+diff --git a/packages/engine/src/LorkanTuning.json b/packages/engine/src/LorkanTuning.json
+new file mode 100644
+index 0000000..5164106
+--- /dev/null
++++ b/packages/engine/src/LorkanTuning.json
+@@ -0,0 +1,5 @@
++{
++  "expansionScale": 0.75,
++  "attackScale": 1.2,
++  "cityTiles": 4500
++}
+\ No newline at end of file
 diff --git a/packages/engine/src/worker/Worker.worker.ts b/packages/engine/src/worker/Worker.worker.ts
-index 65d966c..5898b8e 100644
+index 65d966c..7b3c47d 100644
 --- a/packages/engine/src/worker/Worker.worker.ts
 +++ b/packages/engine/src/worker/Worker.worker.ts
-@@ -26,6 +26,8 @@ import {
+@@ -1,3 +1,4 @@
++import {UnitType} from '@openfront/engine-api/game/GameTypes';
+ import {
+   ErrorUpdate,
+   GameUpdateViewData,
+@@ -26,6 +27,10 @@ import {
    GameRunner,
  } from "../GameRunner";
  import { readSnapshotHeader } from "../snapshot/GameSnapshot";
 +import { lorkanDecision } from '../LorkanPolicy';
++import defaultTuning from '../LorkanTuning.json';
++let lorkanTuning=defaultTuning;
 +let lorkanStrategy=-1, lorkanClient:string|undefined, lorkanActions=0;
  
  const ctx: Worker = self as any;
  // Where answers go: the page that started this worker, or the port it
-@@ -92,6 +94,12 @@ async function drain(): Promise<void> {
+@@ -92,6 +97,12 @@ async function drain(): Promise<void> {
          break;
        }
        ticksRun++;
 +      if(lorkanClient && lorkanStrategy>=0 && gr.game.ticks()%10===0){
-+        const intent=lorkanDecision(gr.game,lorkanClient,lorkanStrategy);
++        const intent=lorkanDecision(gr.game,lorkanClient,lorkanStrategy,lorkanTuning);
 +        if(intent){lorkanActions++;out.postMessage({type:'lorkan_intent',intent});}
 +        const p=gr.game.playerByClientID(lorkanClient);
-+        out.postMessage({type:'lorkan_status',tick:gr.game.ticks(),actions:lorkanActions,tiles:p?.numTilesOwned()??0,troops:Math.round(p?.troops()??0),buildings:p?.units().length??0,last:intent?.type??'观察局势'});
++        out.postMessage({type:'lorkan_status',tick:gr.game.ticks(),actions:lorkanActions,tiles:p?.numTilesOwned()??0,troops:Math.round(p?.troops()??0),buildings:p?.units().length??0,version:'0.3.1',difficulty:gr.game.config().gameConfig().difficulty,trainGold:String(p?.trainGold()??0),tradeGold:String(p?.tradeGold()??0),factories:p?.units(UnitType.Factory).length??0,warships:p?.units(UnitType.Warship).length??0,sams:p?.units(UnitType.SAMLauncher).length??0,silos:p?.units(UnitType.MissileSilo).length??0,last:intent?.type==='build_unit'?intent.unit:intent?.type??'观察局势'});
 +      }
      }
  
      tickUpdateSink = null;
-@@ -163,6 +171,11 @@ function sendMessage(message: WorkerMessage) {
+@@ -163,6 +174,16 @@ function sendMessage(message: WorkerMessage) {
  
  async function onMessage(e: MessageEvent<MainThreadMessage>) {
    const message = e.data;
++  if((message as any).type==='lorkan_tuning'){
++    const p=(message as any).tuning;
++    if(p&&p.expansionScale>=.5&&p.expansionScale<=1.5&&p.attackScale>=.7&&p.attackScale<=1.5&&p.cityTiles>=2500&&p.cityTiles<=7000)lorkanTuning={expansionScale:p.expansionScale,attackScale:p.attackScale,cityTiles:p.cityTiles};
++    return;
++  }
 +  if((message as any).type==='lorkan_control'){
 +    const n=(message as any).strategy;
 +    lorkanStrategy=Number.isInteger(n)&&n>=0&&n<4?n:-1;
@@ -88,7 +361,7 @@ index 65d966c..5898b8e 100644
  
    switch (message.type) {
      case "connect":
-@@ -170,6 +183,7 @@ async function onMessage(e: MessageEvent<MainThreadMessage>) {
+@@ -170,6 +191,7 @@ async function onMessage(e: MessageEvent<MainThreadMessage>) {
        message.port.onmessage = onMessage;
        break;
      case "init":
@@ -96,17 +369,23 @@ index 65d966c..5898b8e 100644
        try {
          gameRunner = (
            message.snapshot !== undefined
+@@ -488,3 +510,4 @@ ctx.addEventListener("error", (error) => {
+ ctx.addEventListener("unhandledrejection", (event) => {
+   console.error("Unhandled promise rejection in worker:", event);
+ });
++
 diff --git a/resources/lorkan-menu.js b/resources/lorkan-menu.js
 new file mode 100644
-index 0000000..d547c2d
+index 0000000..79dc41e
 --- /dev/null
 +++ b/resources/lorkan-menu.js
-@@ -0,0 +1,5 @@
+@@ -0,0 +1,6 @@
 +(()=>{if(document.getElementById('lorkan-live-menu'))return;
 +const local=['localhost','127.0.0.1'].includes(location.hostname),host=document.createElement('div');host.id='lorkan-live-menu';document.documentElement.append(host);const root=host.attachShadow({mode:'open'});
-+root.innerHTML=`<style>:host{all:initial}section{position:fixed;right:18px;top:80px;z-index:2147483647;width:260px;background:#0d1729f5;color:#edf5ff;border:1px solid #486384;border-radius:14px;box-shadow:0 12px 40px #0008;padding:16px;font:14px system-ui}h3{margin:0 0 8px;font-size:18px}small{color:#97abc6}select,button,a{box-sizing:border-box;width:100%;display:block;border-radius:8px;margin-top:10px;padding:10px;font:inherit}button{cursor:pointer;background:#46d8aa;color:#09241d;border:0;font-weight:700}select{background:#1b2c44;color:white;border:1px solid #4b6584}p{line-height:1.6}a{color:#9dd6ff}#stop{background:#293b56;color:white}#state{white-space:pre-line;font-size:13px;color:#c8dbf4}#fold{background:transparent;color:#93a9c6;padding:4px}</style><section><h3>Lorkan1 · 实时托管</h3><small>${local?'本地单人 · 完整游戏客户端':'官方页面 · 回放入口'}</small><div id="body"><select aria-label="AI策略" id="strategy"><option>极速扩张</option><option>经济优先</option><option>军事突袭</option><option>均衡外交</option></select>${local?'<button id="start">开启托管</button><button id="stop">停止托管 / 手动接管</button><p id="state">进入单人对局后开启托管。\nAI 自动选择出生点、扩张、进攻和建设。</p>':'<p>此站点不提供自动操作。请打开本地允许机器人的游戏。</p><a href="http://127.0.0.1:9010/" target="_blank">打开本地完整游戏</a>'}<a href="https://stepono927.github.io/Lorkan1/" target="_blank" rel="noopener">历史比赛回放</a></div><button id="fold">收起 / 展开</button></section>`;
-+const select=root.querySelector('select');if(local){select.selectedIndex=Math.max(0,Number(sessionStorage.getItem('lorkan-strategy')??0));const send=n=>{sessionStorage.setItem('lorkan-strategy',String(n));window.postMessage({source:'lorkan-control',strategy:n},location.origin)};root.querySelector('#start').onclick=()=>{send(select.selectedIndex);root.querySelector('#state').textContent='托管已开启，等待本地单人对局…'};root.querySelector('#stop').onclick=()=>{send(-1);root.querySelector('#state').textContent='托管已停止，可以手动操作。'};select.onchange=()=>{if(Number(sessionStorage.getItem('lorkan-strategy')??-1)>=0)send(select.selectedIndex)};window.addEventListener('message',e=>{if(e.source!==window||e.origin!==location.origin||e.data?.source!=='lorkan-status')return;const d=e.data;root.querySelector('#state').textContent=`运行中 · 游戏刻 ${d.tick}\n已发指令 ${d.actions} · 领土 ${d.tiles}\n兵力 ${d.troops} · 建筑 ${d.buildings}\n最近决策：${d.last}`;});}
++root.innerHTML=`<style>:host{all:initial}section{position:fixed;right:18px;top:80px;z-index:2147483647;width:260px;background:#0d1729f5;color:#edf5ff;border:1px solid #486384;border-radius:14px;box-shadow:0 12px 40px #0008;padding:16px;font:14px system-ui}h3{margin:0 0 8px;font-size:18px}small{color:#97abc6}select,button,a{box-sizing:border-box;width:100%;display:block;border-radius:8px;margin-top:10px;padding:10px;font:inherit}button{cursor:pointer;background:#46d8aa;color:#09241d;border:0;font-weight:700}select{background:#1b2c44;color:white;border:1px solid #4b6584}p{line-height:1.6}a{color:#9dd6ff}#stop{background:#293b56;color:white}#state{white-space:pre-line;font-size:13px;color:#c8dbf4}#fold{background:transparent;color:#93a9c6;padding:4px}</style><section><h3>Lorkan1 · 全兵种 v0.3.1</h3><small>${local?'本地单人 · 完整游戏客户端':'官方页面 · 回放入口'}</small><div id="body"><select aria-label="AI策略" id="strategy"><option>极速扩张</option><option>经济优先</option><option>军事突袭</option><option>均衡外交</option></select>${local?'<button id="start">开启托管</button><button id="stop">停止托管 / 手动接管</button><p id="state">进入单人对局后开启托管。\n新对局默认地狱难度，基础部落默认关闭。AI 管理铁路经济、海军、防空和核武。</p>':'<p>此站点不提供自动操作。请打开本地允许机器人的游戏。</p><a href="http://127.0.0.1:9010/" target="_blank">打开本地完整游戏</a>'}<a href="https://stepono927.github.io/Lorkan1/" target="_blank" rel="noopener">历史比赛回放</a></div><button id="fold">收起 / 展开</button></section>`;
++const select=root.querySelector('select');if(local){select.selectedIndex=Math.max(0,Number(sessionStorage.getItem('lorkan-strategy')??0));const send=n=>{sessionStorage.setItem('lorkan-strategy',String(n));window.postMessage({source:'lorkan-control',strategy:n},location.origin)};root.querySelector('#start').onclick=()=>{send(select.selectedIndex);root.querySelector('#state').textContent='托管已开启，等待本地单人对局…'};root.querySelector('#stop').onclick=()=>{send(-1);root.querySelector('#state').textContent='托管已停止，可以手动操作。'};select.onchange=()=>{if(Number(sessionStorage.getItem('lorkan-strategy')??-1)>=0)send(select.selectedIndex)};window.addEventListener('message',e=>{if(e.source!==window||e.origin!==location.origin||e.data?.source!=='lorkan-status')return;const d=e.data;root.querySelector('#state').textContent=`运行中 · 游戏刻 ${d.tick}\n已发指令 ${d.actions} · 领土 ${d.tiles}\n兵力 ${d.troops} · 建筑 ${d.buildings}\n铁路收入 ${d.trainGold} / 海运 ${d.tradeGold}\n工厂 ${d.factories} · 军舰 ${d.warships}\n防空 ${d.sams} · 发射井 ${d.silos}\n难度 ${d.difficulty} · 决策 ${d.last}`;});}
 +root.querySelector('#fold').onclick=()=>{root.querySelector('#body').hidden=!root.querySelector('#body').hidden};})();
++
 diff --git a/src/client/ClientGameRunner.ts b/src/client/ClientGameRunner.ts
 index a8add65..fd85a11 100644
 --- a/src/client/ClientGameRunner.ts
@@ -119,6 +398,36 @@ index a8add65..fd85a11 100644
    }
  
    /**
+diff --git a/src/client/SinglePlayerModal.ts b/src/client/SinglePlayerModal.ts
+index 762b5eb..48ec7e2 100644
+--- a/src/client/SinglePlayerModal.ts
++++ b/src/client/SinglePlayerModal.ts
+@@ -119,8 +119,8 @@ const TUTORIAL_DISABLED_UNITS: UnitType[] = [
+ 
+ const DEFAULT_OPTIONS = {
+   selectedMap: GameMapType.World,
+-  selectedDifficulty: Difficulty.Easy,
+-  bots: 400,
++  selectedDifficulty: Difficulty.Impossible,
++  bots: 0,
+   infiniteGold: false,
+   infiniteTroops: false,
+   compactMap: false,
+@@ -1191,7 +1191,7 @@ export class SinglePlayerModal extends BaseModal {
+             gameType: GameType.Singleplayer,
+             gameMode: this.gameMode,
+             playerTeams: this.teamCount,
+-            difficulty: this.selectedDifficulty,
++            difficulty: ["127.0.0.1","localhost"].includes(location.hostname) ? Difficulty.Impossible : this.selectedDifficulty,
+             maxTimerValue: finalMaxTimerValue,
+             bots: this.bots,
+             infiniteGold: this.infiniteGold,
+@@ -1434,3 +1434,5 @@ export class SinglePlayerModal extends BaseModal {
+     }
+   }
+ }
++
++
 diff --git a/src/client/Transport.ts b/src/client/Transport.ts
 index 5f9e3d7..c41fdb1 100644
 --- a/src/client/Transport.ts
@@ -135,7 +444,7 @@ index 5f9e3d7..c41fdb1 100644
      if (this.socket === null || this.socket.readyState !== WebSocket.OPEN) {
        return;
 diff --git a/src/client/WorkerClient.ts b/src/client/WorkerClient.ts
-index f954e47..bd5fd24 100644
+index f954e47..80bb464 100644
 --- a/src/client/WorkerClient.ts
 +++ b/src/client/WorkerClient.ts
 @@ -83,6 +83,8 @@ export async function readSnapshotHeader(
@@ -156,11 +465,12 @@ index f954e47..bd5fd24 100644
  
      switch (message.type) {
        case "game_update":
-@@ -149,6 +153,13 @@ export class WorkerClient {
+@@ -149,6 +153,14 @@ export class WorkerClient {
      }
      const worker = await created;
      this.worker = worker;
 +    if(['127.0.0.1','localhost'].includes(location.hostname)&&this.gameStartInfo.config.gameType==='Singleplayer'){
++      try{const profile=await fetch('/lorkan/profile',{cache:'no-store'}).then(r=>r.json());if(profile.params)worker.postMessage({type:'lorkan_tuning',tuning:profile.params});}catch{/* default validated parameters remain available */}
 +      window.addEventListener('message',e=>{
 +        if(e.source!==window||e.origin!==location.origin||e.data?.source!=='lorkan-control')return;
 +        worker.postMessage({type:'lorkan_control',strategy:e.data.strategy});
@@ -170,7 +480,7 @@ index f954e47..bd5fd24 100644
      worker.addEventListener("message", this.handleWorkerMessage.bind(this));
  
      return new Promise((resolve, reject) => {
-@@ -497,6 +508,7 @@ export class WorkerClient {
+@@ -497,6 +509,7 @@ export class WorkerClient {
    }
  
    cleanup() {
@@ -178,3 +488,22 @@ index f954e47..bd5fd24 100644
      this.worker?.terminate();
      this.messageHandlers.clear();
      this.gameUpdateCallback = undefined;
+diff --git a/vite.config.ts b/vite.config.ts
+index 182a003..77ee0aa 100644
+--- a/vite.config.ts
++++ b/vite.config.ts
+@@ -434,6 +434,14 @@ export default defineConfig(({ mode }) => {
+     },
+ 
+     plugins: [
++      ...(!isProduction ? [{name:'lorkan-local-profile',configureServer(server){
++        server.middlewares.use((req,res,next)=>{
++          if(!['/lorkan/profile','/lorkan/training'].includes(req.url??''))return next();
++          const file=path.resolve(__dirname,'../../outputs',req.url==='/lorkan/profile'?'lorkan-champion.json':'evolution-report.json');
++          res.setHeader('Content-Type','application/json; charset=utf-8');res.setHeader('Cache-Control','no-store');
++          try{res.end(fs.readFileSync(file,'utf8'));}catch{res.end('{}');}
++        });
++      }} as Plugin] : []),
+       ...(!isProduction
+         ? [
+             serveRootPublicDir(getPublicDir(resourcesDir)),

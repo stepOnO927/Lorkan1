@@ -1,0 +1,60 @@
+[
+  {
+    "version": "v031-late",
+    "seed": 0,
+    "map": "World",
+    "ticks": 1800,
+    "win": false,
+    "alive": true,
+    "tiles": 2470,
+    "maxTiles": 3885,
+    "gold": "71947319",
+    "trainGold": "2720000",
+    "tradeGold": "777170",
+    "factories": 1,
+    "connectedStations": 3,
+    "stations": 3,
+    "actions": {
+      "spawn": 1,
+      "City": 3,
+      "attack": 7,
+      "upgrade_structure": 18,
+      "boat": 1,
+      "Factory": 2,
+      "Port": 1,
+      "SAM Launcher": 1,
+      "Warship": 14,
+      "move_warship": 17
+    },
+    "seconds": 65.487
+  },
+  {
+    "version": "v031-late",
+    "seed": 1,
+    "map": "Europe",
+    "ticks": 1800,
+    "win": false,
+    "alive": true,
+    "tiles": 7383,
+    "maxTiles": 7383,
+    "gold": "72745555",
+    "trainGold": "1755000",
+    "tradeGold": "224797",
+    "factories": 2,
+    "connectedStations": 5,
+    "stations": 5,
+    "actions": {
+      "spawn": 1,
+      "City": 2,
+      "attack": 7,
+      "upgrade_structure": 18,
+      "Factory": 2,
+      "SAM Launcher": 1,
+      "boat": 2,
+      "Port": 1,
+      "Warship": 8,
+      "move_warship": 18
+    },
+    "seconds": 41.124
+  }
+]

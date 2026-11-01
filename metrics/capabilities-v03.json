@@ -1,0 +1,30 @@
+{
+  "fixture": "Mature territory + equal 200M starting gold; enemy stationary; not a competition",
+  "actions": {
+    "SAM Launcher": 12,
+    "Factory": 12,
+    "Port": 9,
+    "Hydrogen Bomb": 1,
+    "Warship": 5,
+    "attack": 4,
+    "City": 9,
+    "Missile Silo": 2,
+    "upgrade_structure": 35,
+    "boat": 1
+  },
+  "seen": [
+    "City",
+    "Missile Silo",
+    "SAM Launcher",
+    "Factory",
+    "Train",
+    "Port",
+    "Hydrogen Bomb",
+    "Warship",
+    "Transport"
+  ],
+  "maxConnected": 26,
+  "maxShips": 5,
+  "trainGold": "1840000",
+  "tradeGold": "0"
+}

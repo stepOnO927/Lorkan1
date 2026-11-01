@@ -1,0 +1,94 @@
+[
+  {
+    "version": "baseline",
+    "seed": 0,
+    "map": "World",
+    "ticks": 1033,
+    "win": false,
+    "alive": false,
+    "tiles": 0,
+    "maxTiles": 3464,
+    "gold": "0",
+    "trainGold": "0",
+    "tradeGold": "0",
+    "factories": 0,
+    "connectedStations": 0,
+    "stations": 0,
+    "actions": {
+      "spawn": 1,
+      "attack": 7,
+      "boat": 3,
+      "City": 1
+    },
+    "seconds": 7.902
+  },
+  {
+    "version": "baseline",
+    "seed": 1,
+    "map": "Europe",
+    "ticks": 1685,
+    "win": false,
+    "alive": false,
+    "tiles": 0,
+    "maxTiles": 4122,
+    "gold": "0",
+    "trainGold": "0",
+    "tradeGold": "0",
+    "factories": 0,
+    "connectedStations": 0,
+    "stations": 0,
+    "actions": {
+      "spawn": 1,
+      "attack": 13,
+      "boat": 2,
+      "City": 1
+    },
+    "seconds": 12.931
+  },
+  {
+    "version": "baseline",
+    "seed": 2,
+    "map": "World",
+    "ticks": 763,
+    "win": false,
+    "alive": false,
+    "tiles": 0,
+    "maxTiles": 921,
+    "gold": "0",
+    "trainGold": "0",
+    "tradeGold": "0",
+    "factories": 0,
+    "connectedStations": 0,
+    "stations": 0,
+    "actions": {
+      "spawn": 1,
+      "attack": 3,
+      "boat": 1
+    },
+    "seconds": 3.708
+  },
+  {
+    "version": "baseline",
+    "seed": 3,
+    "map": "Europe",
+    "ticks": 1953,
+    "win": false,
+    "alive": false,
+    "tiles": 0,
+    "maxTiles": 3377,
+    "gold": "0",
+    "trainGold": "0",
+    "tradeGold": "0",
+    "factories": 0,
+    "connectedStations": 0,
+    "stations": 0,
+    "actions": {
+      "spawn": 1,
+      "attack": 8,
+      "boat": 5,
+      "City": 1,
+      "Port": 1
+    },
+    "seconds": 16.905
+  }
+]
