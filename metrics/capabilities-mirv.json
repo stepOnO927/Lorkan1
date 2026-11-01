@@ -1,0 +1,32 @@
+{
+  "nukeMode": "mirv",
+  "fixture": "Mature territory + equal 200M starting gold; enemy stationary; not a competition",
+  "actions": {
+    "SAM Launcher": 12,
+    "Factory": 12,
+    "Port": 9,
+    "MIRV": 1,
+    "Warship": 5,
+    "attack": 5,
+    "City": 9,
+    "Missile Silo": 2,
+    "upgrade_structure": 36,
+    "boat": 4
+  },
+  "seen": [
+    "City",
+    "Missile Silo",
+    "SAM Launcher",
+    "Factory",
+    "Train",
+    "Port",
+    "MIRV",
+    "MIRV Warhead",
+    "Warship",
+    "Transport"
+  ],
+  "maxConnected": 26,
+  "maxShips": 5,
+  "trainGold": "1560000",
+  "tradeGold": "0"
+}

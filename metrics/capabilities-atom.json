@@ -1,0 +1,29 @@
+{
+  "nukeMode": "atom",
+  "fixture": "Mature territory + equal 200M starting gold; enemy stationary; not a competition",
+  "actions": {
+    "SAM Launcher": 11,
+    "Factory": 10,
+    "Port": 8,
+    "Atom Bomb": 1,
+    "Warship": 4,
+    "City": 9,
+    "Missile Silo": 2,
+    "upgrade_structure": 39,
+    "attack": 1
+  },
+  "seen": [
+    "City",
+    "Missile Silo",
+    "SAM Launcher",
+    "Factory",
+    "Train",
+    "Port",
+    "Atom Bomb",
+    "Warship"
+  ],
+  "maxConnected": 23,
+  "maxShips": 4,
+  "trainGold": "1640000",
+  "tradeGold": "0"
+}
