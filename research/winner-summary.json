@@ -1,0 +1,79 @@
+[
+  {
+    "gameId": "WINNER-STUDY-0",
+    "source": "local-openfront-030274df6e377a57e784a9f6f9865720b0dfbbba",
+    "winnerId": "0rsvfgta",
+    "ticks": 13411,
+    "observedBuildOrder": [
+      {
+        "type": "City",
+        "firstObservedTick": 1300
+      },
+      {
+        "type": "Transport",
+        "firstObservedTick": 2400
+      },
+      {
+        "type": "Port",
+        "firstObservedTick": 2600
+      },
+      {
+        "type": "Defense Post",
+        "firstObservedTick": 3900
+      },
+      {
+        "type": "Trade Ship",
+        "firstObservedTick": 4000
+      },
+      {
+        "type": "Factory",
+        "firstObservedTick": 7100
+      },
+      {
+        "type": "Train",
+        "firstObservedTick": 7100
+      },
+      {
+        "type": "Warship",
+        "firstObservedTick": 7400
+      },
+      {
+        "type": "Shell",
+        "firstObservedTick": 7400
+      },
+      {
+        "type": "Missile Silo",
+        "firstObservedTick": 7900
+      },
+      {
+        "type": "SAM Launcher",
+        "firstObservedTick": 10100
+      },
+      {
+        "type": "Atom Bomb",
+        "firstObservedTick": 10700
+      }
+    ],
+    "finalUnits": {
+      "City": 49,
+      "Port": 33,
+      "Defense Post": 3,
+      "Factory": 19,
+      "Missile Silo": 4,
+      "SAM Launcher": 7,
+      "Train": 56
+    },
+    "finalTiles": 451539,
+    "factoryPerCity": 0.3877551020408163,
+    "medianObservedAttackRatio": 0.21387863892558817,
+    "medianObservedNeutralRatio": 0.20503542264553787,
+    "trainGold": "6660000",
+    "tradeGold": "59713635",
+    "limitations": "每100刻采样；出现时间是首次观察，不是精确指令时刻。观察到的攻击比例不是原始操作参数；胜者打法不是获胜因果证明。"
+  },
+  {
+    "gameId": "WINNER-STUDY-1",
+    "completed": false,
+    "reason": "No engine-declared winner within tick limit"
+  }
+]

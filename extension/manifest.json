@@ -1,20 +1,44 @@
 {
   "manifest_version": 3,
-  "name": "Lorkan1 本地 AI 菜单",
-  "version": "0.3.1",
-  "description": "完整本地 OpenFront 单人对局实时托管菜单",
+  "name": "Lorkan1 策略研究室",
+  "version": "0.4.0",
+  "description": "FrontWars.io 页面菜单、本机胜者复盘与获许可本地环境 AI 实验。官方自动托管接口仍待验证。",
   "permissions": [],
   "content_scripts": [
     {
       "matches": [
-        "https://frontwars.org/*",
-        "https://*.frontwars.org/*",
+        "https://frontwars.io/*",
+        "https://www.frontwars.io/*",
         "http://localhost/*",
         "http://127.0.0.1/*"
       ],
       "js": [
+        "site-adapter.js",
         "menu.js"
+      ],
+      "include_globs": [
+        "https://frontwars.io/*",
+        "https://www.frontwars.io/*",
+        "http://localhost:9010/*",
+        "http://127.0.0.1:9010/*"
       ]
     }
-  ]
+  ],
+  "version_name": "0.4.0 beta",
+  "action": {
+    "default_title": "Lorkan1 胜者研究室",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
 }

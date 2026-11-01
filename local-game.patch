@@ -97,10 +97,10 @@ index 0000000..9d7affd
 +
 diff --git a/lorkan-evolve.cjs b/lorkan-evolve.cjs
 new file mode 100644
-index 0000000..a760892
+index 0000000..a1d710c
 --- /dev/null
 +++ b/lorkan-evolve.cjs
-@@ -0,0 +1,28 @@
+@@ -0,0 +1,34 @@
 +// Deterministic parameter search against maximum-difficulty opponents. Validation seeds are never used to rank training candidates.
 +const fs=require('node:fs'),{spawnSync}=require('node:child_process');
 +const file='packages/engine/src/LorkanTuning.json',out='../../outputs';
@@ -119,15 +119,67 @@ index 0000000..a760892
 +for(let gen=0;gen<generations;gen++){
 + const generation=offset+gen+1;
 + fs.writeFileSync(`${out}/evolution-report.json`,JSON.stringify({method:'Bounded parameter search, not neural-model training',difficulty:'Impossible',running:true,currentGeneration:generation,ticks,generations:history},null,2));
++ if(process.env.LEARN_WINNERS==='1'){
++  const study=spawnSync(process.execPath,['--import','tsx','lorkan-winners.ts'],{env:{...process.env,GAMES:'1',TICKS:'15000',STUDY_START:String(generation*2)},encoding:'utf8',windowsHide:true,maxBuffer:8000000});
++  if(study.status!==0)throw Error(study.stderr||study.stdout);console.log(study.stdout);
++ }
 + const stamp=Date.now().toString(36),baseSeed=100+(generation-1)*10;
 + const candidates=[champion,{...champion,expansionScale:Math.max(.5,champion.expansionScale-.15),attackScale:Math.min(1.5,champion.attackScale+.1)},{...champion,expansionScale:Math.min(1.5,champion.expansionScale+.15),attackScale:Math.max(.7,champion.attackScale-.1),cityTiles:3500}];
++ let winnerProvenance=[];
++ try{const proposal=JSON.parse(fs.readFileSync(`${out}/winner-proposal.json`));const p=proposal.params;if(Array.isArray(proposal.provenance)&&proposal.provenance.length&&p.expansionScale>=.5&&p.expansionScale<=1.5&&p.attackScale>=.7&&p.attackScale<=1.5&&p.cityTiles>=2500&&p.cityTiles<=7000){candidates.push(p);winnerProvenance=proposal.provenance;}}catch{}
 + const train=candidates.map((p,i)=>evaluate(p,`evolve-${stamp}-${i}`,baseSeed));
 + let best=train.reduce((b,x,i)=>x.score>train[b].score?i:b,0),accepted=false,validation=null;
 + if(best!==0){const old=evaluate(champion,`validate-${stamp}-old`,1000+(generation-1)*10),next=evaluate(candidates[best],`validate-${stamp}-new`,1000+(generation-1)*10);validation={old:old.score,next:next.score};accepted=next.score>old.score&&next.rows.filter(r=>r.win).length>=old.rows.filter(r=>r.win).length;if(accepted)champion=candidates[best];}
-+ history.push({gen:generation,candidates,trainingScores:train.map(x=>x.score),best,validation,accepted,champion});
++ history.push({gen:generation,candidates,winnerProvenance,trainingScores:train.map(x=>x.score),best,validation,accepted,champion});
 + fs.writeFileSync(`${out}/lorkan-champion.json`,JSON.stringify({generation,params:champion,accepted},null,2));
 + fs.writeFileSync(`${out}/evolution-report.json`,JSON.stringify({method:'Bounded parameter search, not neural-model training',difficulty:'Impossible',running:gen<generations-1,currentGeneration:generation,ticks,generations:history},null,2));
 + console.log(JSON.stringify({generation,accepted,champion}));
++}
+diff --git a/lorkan-followup.cjs b/lorkan-followup.cjs
+new file mode 100644
+index 0000000..01c51a0
+--- /dev/null
++++ b/lorkan-followup.cjs
+@@ -0,0 +1,4 @@
++// Continue only after the currently running generation batch finishes; never race two writers of the champion profile.
++const fs=require('node:fs');const report='../../outputs/evolution-report.json';
++const timer=setInterval(()=>{try{const r=JSON.parse(fs.readFileSync(report));if(r.running===false){clearInterval(timer);process.env.GENERATIONS='10';process.env.LEARN_WINNERS='1';console.log('Starting winner-observation + independent-validation batch');require('./lorkan-evolve.cjs');}}catch(e){if(e.code!=='ENOENT'){console.error(e.message);process.exitCode=1;clearInterval(timer)}}},15000);
++console.log('Waiting for the current training batch, then continue 10 generations with complete-game winner observation.');
+diff --git a/lorkan-winners.ts b/lorkan-winners.ts
+new file mode 100644
+index 0000000..3825c4f
+--- /dev/null
++++ b/lorkan-winners.ts
+@@ -0,0 +1,30 @@
++import {GameType,GameMapType,GameMapSize,GameMode,Difficulty} from '@openfront/engine-api/game/GameTypes';
++import {createGameRunner} from './packages/engine/src/GameRunner';
++import {loadMapFiles} from '@openfront/shared/GameMapLoader';
++import {NodeGameMapLoader} from './tests/perf/fullgame/NodeGameMapLoader';
++import {lorkanDecision} from './packages/engine/src/LorkanPolicy';
++import fs from 'node:fs';
++import {createRequire} from 'node:module';
++const {analyze}=createRequire(import.meta.url)('../../outputs/Lorkan1/extension/replay-analysis.js');
++const out='../../outputs/winner-study';fs.mkdirSync(out,{recursive:true});const summaries:any[]=[];
++console.debug=()=>{};
++for(let i=0;i<Number(process.env.GAMES??2);i++){
++ const n=i+Number(process.env.STUDY_START??0);
++ const map=n%2?GameMapType.World:GameMapType.Europe;
++ const config:any={gameType:GameType.Singleplayer,gameMode:GameMode.FFA,gameMap:map,gameMapSize:GameMapSize.Compact,difficulty:Difficulty.Impossible,nations:12,bots:0,startingGold:0,infiniteGold:false,infiniteTroops:false,instantBuild:false,randomSpawn:false,donateGold:false,donateTroops:false};
++ const gameId='WINNER-STUDY-'+n,start:any={gameID:gameId,lobbyCreatedAt:0,config,players:[{clientID:'LOCALAI1',username:'Lorkan',clanTag:null,isLobbyCreator:true}]};
++ const r=await createGameRunner(start,'LOCALAI1',await loadMapFiles(new NodeGameMapLoader('resources/maps'),map,GameMapSize.Compact),u=>{if('errMsg'in u)throw Error(u.errMsg)}),g=r.game;
++ const samples:any[]=[];
++ function sample(){for(const p of g.allPlayers().filter(p=>p.hasSpawned())){const units:Record<string,number>={};for(const u of p.units())if(!u.isUnderConstruction())units[u.type()]=(units[u.type()]??0)+1;const outgoing=p.outgoingAttacks(),total=p.troops()+outgoing.reduce((s,a)=>s+a.troops(),0);samples.push({tick:g.ticks(),playerId:p.id(),tiles:p.numTilesOwned(),troops:Math.round(p.troops()),gold:String(p.gold()),trainGold:String(p.trainGold()),tradeGold:String(p.tradeGold()),units,attackRatios:outgoing.filter(a=>a.target().isPlayer()).map(a=>a.troops()/Math.max(1,total)),neutralRatios:outgoing.filter(a=>!a.target().isPlayer()).map(a=>a.troops()/Math.max(1,total))});}}
++ for(let t=0;t<Number(process.env.TICKS??15000);t++){
++  const a=lorkanDecision(g,'LOCALAI1',1);r.addTurn({turnNumber:t,intents:a?[{...a,clientID:'LOCALAI1'}]:[]});if(!r.executeNextTick())throw Error('Tick failed');
++  if(g.ticks()%100===0||g.getWinner())sample();
++  if(g.getWinner())break;
++ }
++ const winner:any=g.getWinner(),winnerId=winner&&typeof winner.id==='function'?winner.id():null;
++ const record={schema:'lorkan-observation-v1',source:'local-openfront-030274df6e377a57e784a9f6f9865720b0dfbbba',gameId,config,completed:winnerId!==null,winnerId,samples};
++ fs.writeFileSync(`${out}/${gameId}.json`,JSON.stringify(record));
++ const summary=winnerId?analyze(record):{gameId,completed:false,reason:'No engine-declared winner within tick limit'};summaries.push(summary);fs.writeFileSync(`${out}/summary.json`,JSON.stringify(summaries,null,2));
++ const eligible=summaries.filter(s=>s.winnerId);if(eligible.length){const last=eligible.at(-1);const clamp=(n:number,lo:number,hi:number)=>Math.max(lo,Math.min(hi,n));const proposal={provenance:eligible.map(s=>s.gameId),params:{expansionScale:last.medianObservedNeutralRatio===null?.75:clamp(last.medianObservedNeutralRatio/.14,.5,1.5),attackScale:1.2,cityTiles:clamp(Math.round(last.finalTiles/Math.max(1,last.finalUnits.City??0)),2500,7000)},note:'Observed winner-derived hypothesis; must pass independent validation before deployment'};fs.writeFileSync('../../outputs/winner-proposal.json',JSON.stringify(proposal,null,2));}
++ console.log(JSON.stringify({gameId,winnerId,ticks:g.ticks(),samples:samples.length}));
 +}
 diff --git a/packages/engine/src/LorkanArsenal.ts b/packages/engine/src/LorkanArsenal.ts
 new file mode 100644

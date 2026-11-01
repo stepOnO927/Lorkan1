@@ -21,7 +21,7 @@ jobs:
       - uses: actions/configure-pages@v5
         with:
           enablement: true
-      - run: mkdir public && cp index.html results.json public/
+      - run: mkdir public && cp index.html results.json lab.html lab.css lab.js replay-analysis.js privacy.html sample-observation.json public/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: public

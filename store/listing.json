@@ -1,0 +1,14 @@
+{
+  "name": "Lorkan1 策略研究室",
+  "shortDescription": "FrontWars.io 页面菜单、本机胜者复盘，以及获许可本地环境中的 AI 策略实验。",
+  "singlePurpose": "帮助用户研究策略游戏对局：在本机分析用户主动导入的胜者观察记录，并提供获许可环境的策略实验菜单。",
+  "description": "在 FrontWars.io 显示可收起的策略菜单；通过胜者研究室在本机分析用户主动导入的 Lorkan 观察记录，提取建筑首次出现顺序、工厂与城市比例、经济收入与观察到的进攻投入。支持本地完整 OpenFront 环境中的四策略 AI 控制。\n\n当前版本不支持 FrontWars 官方对局自动托管，也不支持直接解析 FrontWars 原生回放。页面接入、状态读取和指令执行是分别验证的能力，不以菜单出现冒充已能代打。\n\n复盘文件不上传，不使用遥测，不访问无关网站。非 FrontWars 或 Google 官方产品。",
+  "category": "Tools",
+  "language": "zh-CN",
+  "homepage": "https://stepono927.github.io/Lorkan1/lab.html",
+  "privacyUrl": "https://stepono927.github.io/Lorkan1/privacy.html",
+  "supportUrl": "https://github.com/stepOnO927/Lorkan1/issues",
+  "remoteCode": false,
+  "dataHandling": "仅本机；用户确认并主动选择文件后解析，保存提取报告到本机浏览器存储，可在界面清除。",
+  "submissionStatus": "NOT SUBMITTED — developer account not yet registered; official runtime adapter remains incomplete"
+}

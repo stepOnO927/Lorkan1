@@ -1,0 +1,11 @@
+{
+  "provenance": [
+    "WINNER-STUDY-0"
+  ],
+  "params": {
+    "expansionScale": 1.4645387331824131,
+    "attackScale": 1.2,
+    "cityTiles": 7000
+  },
+  "note": "Observed winner-derived hypothesis; must pass independent validation before deployment"
+}
