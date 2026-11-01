@@ -1,0 +1,1 @@
+{"manifest_version":3,"name":"Lorkan1 本地 AI 菜单","version":"0.1.0","description":"FrontWars 页面显示回放入口；本地允许机器人的环境提供四策略自动赛按钮。","permissions":[],"host_permissions":["http://127.0.0.1:8765/*"],"background":{"service_worker":"background.js"},"content_scripts":[{"matches":["https://frontwars.org/*","https://*.frontwars.org/*","http://localhost/*","http://127.0.0.1/*"],"js":["menu.js"]}]}

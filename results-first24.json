@@ -1,0 +1,1623 @@
+{
+  "engine": "OpenFrontIO unmodified rules; custom intent policies",
+  "map": "big_plains 200x200",
+  "decisionInterval": 10,
+  "tickLimit": 18000,
+  "wins": {
+    "极速扩张": 1,
+    "经济优先": 16,
+    "军事突袭": 0,
+    "均衡外交": 2
+  },
+  "elapsedSeconds": 33.826,
+  "results": [
+    {
+      "round": 1,
+      "seats": [
+        "极速扩张",
+        "经济优先",
+        "军事突袭",
+        "均衡外交"
+      ],
+      "winner": "经济优先",
+      "ticks": 2651,
+      "counts": [
+        {
+          "attack": 26,
+          "build_unit": 2,
+          "allianceRequest": 2,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 39,
+          "build_unit": 2,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 20,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 32,
+          "build_unit": 2,
+          "allianceRequest": 4,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 7777,
+          "troops": 482819,
+          "gold": "94900",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 32223,
+          "troops": 806268,
+          "gold": "55100",
+          "cities": 1
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 2236,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 0,
+          "troops": 20196,
+          "gold": "0",
+          "cities": 0
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "seats": [
+        "极速扩张",
+        "经济优先",
+        "均衡外交",
+        "军事突袭"
+      ],
+      "winner": "经济优先",
+      "ticks": 1901,
+      "counts": [
+        {
+          "attack": 25,
+          "build_unit": 2,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 34,
+          "build_unit": 1,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 23,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 36,
+          "build_unit": 2,
+          "allianceRequest": 2,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 0,
+          "troops": 20216,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 32077,
+          "troops": 754077,
+          "gold": "80900",
+          "cities": 1
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 837,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 7923,
+          "troops": 524147,
+          "gold": "19900",
+          "cities": 0
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "seats": [
+        "极速扩张",
+        "军事突袭",
+        "经济优先",
+        "均衡外交"
+      ],
+      "winner": "经济优先",
+      "ticks": 3321,
+      "counts": [
+        {
+          "attack": 22,
+          "build_unit": 5,
+          "allianceRequest": 4,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 29,
+          "build_unit": 2,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 19,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 28,
+          "build_unit": 3,
+          "allianceRequest": 5,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 133,
+          "troops": 38590,
+          "gold": "11900",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 32094,
+          "troops": 705787,
+          "gold": "71450",
+          "cities": 1
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 792,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 7773,
+          "troops": 613231,
+          "gold": "36900",
+          "cities": 1
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "seats": [
+        "极速扩张",
+        "军事突袭",
+        "均衡外交",
+        "经济优先"
+      ],
+      "winner": "经济优先",
+      "ticks": 1301,
+      "counts": [
+        {
+          "attack": 22,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 22,
+          "build_unit": 0,
+          "allianceRequest": 2,
+          "breakAlliance": 1
+        },
+        {
+          "attack": 27,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 46,
+          "build_unit": 1,
+          "allianceRequest": 3,
+          "breakAlliance": 1
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 0,
+          "troops": 1199,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 32075,
+          "troops": 473062,
+          "gold": "123450",
+          "cities": 0
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 1287,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 7925,
+          "troops": 17106,
+          "gold": "86400",
+          "cities": 0
+        }
+      ]
+    },
+    {
+      "round": 5,
+      "seats": [
+        "极速扩张",
+        "均衡外交",
+        "经济优先",
+        "军事突袭"
+      ],
+      "winner": "经济优先",
+      "ticks": 16151,
+      "counts": [
+        {
+          "attack": 22,
+          "build_unit": 2,
+          "allianceRequest": 3,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 31,
+          "build_unit": 9,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 18,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 25,
+          "build_unit": 13,
+          "allianceRequest": 4,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 0,
+          "troops": 79221,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 32068,
+          "troops": 1516161,
+          "gold": "616100",
+          "cities": 6
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 891,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 7932,
+          "troops": 939248,
+          "gold": "36750",
+          "cities": 2
+        }
+      ]
+    },
+    {
+      "round": 6,
+      "seats": [
+        "极速扩张",
+        "均衡外交",
+        "军事突袭",
+        "经济优先"
+      ],
+      "winner": "经济优先",
+      "ticks": 2881,
+      "counts": [
+        {
+          "attack": 28,
+          "build_unit": 2,
+          "allianceRequest": 3,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 45,
+          "build_unit": 2,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 21,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 35,
+          "build_unit": 3,
+          "allianceRequest": 5,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 7860,
+          "troops": 485068,
+          "gold": "117900",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 32140,
+          "troops": 756750,
+          "gold": "63200",
+          "cities": 1
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 5414,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 0,
+          "troops": 20988,
+          "gold": "0",
+          "cities": 0
+        }
+      ]
+    },
+    {
+      "round": 7,
+      "seats": [
+        "经济优先",
+        "极速扩张",
+        "军事突袭",
+        "均衡外交"
+      ],
+      "winner": null,
+      "ticks": 18000,
+      "counts": [
+        {
+          "attack": 21,
+          "build_unit": 2,
+          "allianceRequest": 2,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 33,
+          "build_unit": 9,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 19,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 31,
+          "build_unit": 11,
+          "allianceRequest": 3,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 0,
+          "troops": 37940,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 16701,
+          "troops": 2282442,
+          "gold": "397300",
+          "cities": 6
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 2079,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 23299,
+          "troops": 1434328,
+          "gold": "219900",
+          "cities": 2
+        }
+      ]
+    },
+    {
+      "round": 8,
+      "seats": [
+        "经济优先",
+        "极速扩张",
+        "均衡外交",
+        "军事突袭"
+      ],
+      "winner": "经济优先",
+      "ticks": 14481,
+      "counts": [
+        {
+          "attack": 20,
+          "build_unit": 9,
+          "allianceRequest": 19,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 50,
+          "build_unit": 9,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 20,
+          "build_unit": 2,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 35,
+          "build_unit": 12,
+          "allianceRequest": 20,
+          "breakAlliance": 1
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 0,
+          "troops": 26478,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 32197,
+          "troops": 1731669,
+          "gold": "560900",
+          "cities": 9
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 29154,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 7803,
+          "troops": 693752,
+          "gold": "52900",
+          "cities": 1
+        }
+      ]
+    },
+    {
+      "round": 9,
+      "seats": [
+        "经济优先",
+        "军事突袭",
+        "极速扩张",
+        "均衡外交"
+      ],
+      "winner": null,
+      "ticks": 18000,
+      "counts": [
+        {
+          "attack": 18,
+          "build_unit": 6,
+          "allianceRequest": 7,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 19,
+          "build_unit": 11,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 16,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 33,
+          "build_unit": 18,
+          "allianceRequest": 10,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 0,
+          "troops": 78531,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 17782,
+          "troops": 2805008,
+          "gold": "449900",
+          "cities": 8
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 3529,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 22218,
+          "troops": 1910862,
+          "gold": "210200",
+          "cities": 4
+        }
+      ]
+    },
+    {
+      "round": 10,
+      "seats": [
+        "经济优先",
+        "军事突袭",
+        "均衡外交",
+        "极速扩张"
+      ],
+      "winner": "经济优先",
+      "ticks": 2661,
+      "counts": [
+        {
+          "attack": 24,
+          "build_unit": 2,
+          "allianceRequest": 2,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 38,
+          "build_unit": 2,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 20,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 31,
+          "build_unit": 2,
+          "allianceRequest": 4,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 7945,
+          "troops": 494004,
+          "gold": "95900",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 32055,
+          "troops": 924555,
+          "gold": "55450",
+          "cities": 1
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 2432,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 0,
+          "troops": 19987,
+          "gold": "0",
+          "cities": 0
+        }
+      ]
+    },
+    {
+      "round": 11,
+      "seats": [
+        "经济优先",
+        "均衡外交",
+        "极速扩张",
+        "军事突袭"
+      ],
+      "winner": "经济优先",
+      "ticks": 3131,
+      "counts": [
+        {
+          "attack": 19,
+          "build_unit": 3,
+          "allianceRequest": 4,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 27,
+          "build_unit": 2,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 16,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 24,
+          "build_unit": 3,
+          "allianceRequest": 5,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 602,
+          "troops": 169269,
+          "gold": "17900",
+          "cities": 1
+        },
+        {
+          "name": "经济优先",
+          "tiles": 32074,
+          "troops": 711396,
+          "gold": "103650",
+          "cities": 1
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 1612,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 7324,
+          "troops": 504955,
+          "gold": "17900",
+          "cities": 1
+        }
+      ]
+    },
+    {
+      "round": 12,
+      "seats": [
+        "经济优先",
+        "均衡外交",
+        "军事突袭",
+        "极速扩张"
+      ],
+      "winner": "经济优先",
+      "ticks": 2281,
+      "counts": [
+        {
+          "attack": 22,
+          "build_unit": 3,
+          "allianceRequest": 2,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 33,
+          "build_unit": 1,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 19,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 31,
+          "build_unit": 2,
+          "allianceRequest": 3,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 0,
+          "troops": 22209,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 32088,
+          "troops": 904359,
+          "gold": "102950",
+          "cities": 1
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 1974,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 7912,
+          "troops": 499775,
+          "gold": "57900",
+          "cities": 0
+        }
+      ]
+    },
+    {
+      "round": 13,
+      "seats": [
+        "军事突袭",
+        "极速扩张",
+        "经济优先",
+        "均衡外交"
+      ],
+      "winner": "经济优先",
+      "ticks": 1231,
+      "counts": [
+        {
+          "attack": 20,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 29,
+          "build_unit": 0,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 28,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 43,
+          "build_unit": 1,
+          "allianceRequest": 2,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 0,
+          "troops": 665,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 32185,
+          "troops": 129647,
+          "gold": "124700",
+          "cities": 0
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 891,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 7815,
+          "troops": 68107,
+          "gold": "52900",
+          "cities": 0
+        }
+      ]
+    },
+    {
+      "round": 14,
+      "seats": [
+        "军事突袭",
+        "极速扩张",
+        "均衡外交",
+        "经济优先"
+      ],
+      "winner": "经济优先",
+      "ticks": 4891,
+      "counts": [
+        {
+          "attack": 18,
+          "build_unit": 4,
+          "allianceRequest": 6,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 31,
+          "build_unit": 2,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 18,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 30,
+          "build_unit": 4,
+          "allianceRequest": 7,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 964,
+          "troops": 468329,
+          "gold": "93900",
+          "cities": 1
+        },
+        {
+          "name": "经济优先",
+          "tiles": 32222,
+          "troops": 888463,
+          "gold": "233800",
+          "cities": 2
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 2374,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 6814,
+          "troops": 439084,
+          "gold": "93900",
+          "cities": 0
+        }
+      ]
+    },
+    {
+      "round": 15,
+      "seats": [
+        "军事突袭",
+        "经济优先",
+        "极速扩张",
+        "均衡外交"
+      ],
+      "winner": null,
+      "ticks": 18000,
+      "counts": [
+        {
+          "attack": 63,
+          "build_unit": 14,
+          "allianceRequest": 2,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 90,
+          "build_unit": 10,
+          "allianceRequest": 3,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 41,
+          "build_unit": 3,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 75,
+          "build_unit": 5,
+          "allianceRequest": 7,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 21801,
+          "troops": 1401710,
+          "gold": "96050",
+          "cities": 2
+        },
+        {
+          "name": "经济优先",
+          "tiles": 18199,
+          "troops": 2319337,
+          "gold": "984050",
+          "cities": 6
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 7324,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 0,
+          "troops": 21087,
+          "gold": "0",
+          "cities": 0
+        }
+      ]
+    },
+    {
+      "round": 16,
+      "seats": [
+        "军事突袭",
+        "经济优先",
+        "均衡外交",
+        "极速扩张"
+      ],
+      "winner": "均衡外交",
+      "ticks": 8071,
+      "counts": [
+        {
+          "attack": 17,
+          "build_unit": 6,
+          "allianceRequest": 9,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 25,
+          "build_unit": 5,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 17,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 39,
+          "build_unit": 7,
+          "allianceRequest": 11,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 0,
+          "troops": 76281,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 7903,
+          "troops": 831118,
+          "gold": "261900",
+          "cities": 2
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 9081,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 32097,
+          "troops": 1213640,
+          "gold": "6100",
+          "cities": 3
+        }
+      ]
+    },
+    {
+      "round": 17,
+      "seats": [
+        "军事突袭",
+        "均衡外交",
+        "极速扩张",
+        "经济优先"
+      ],
+      "winner": "经济优先",
+      "ticks": 12901,
+      "counts": [
+        {
+          "attack": 23,
+          "build_unit": 14,
+          "allianceRequest": 2,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 42,
+          "build_unit": 8,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 20,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 31,
+          "build_unit": 2,
+          "allianceRequest": 4,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 7959,
+          "troops": 501407,
+          "gold": "219900",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 32041,
+          "troops": 1480553,
+          "gold": "398350",
+          "cities": 7
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 1824,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 0,
+          "troops": 27957,
+          "gold": "0",
+          "cities": 0
+        }
+      ]
+    },
+    {
+      "round": 18,
+      "seats": [
+        "军事突袭",
+        "均衡外交",
+        "经济优先",
+        "极速扩张"
+      ],
+      "winner": "均衡外交",
+      "ticks": 2631,
+      "counts": [
+        {
+          "attack": 20,
+          "build_unit": 2,
+          "allianceRequest": 3,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 39,
+          "build_unit": 1,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 17,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 34,
+          "build_unit": 2,
+          "allianceRequest": 4,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 802,
+          "troops": 201526,
+          "gold": "92900",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 7077,
+          "troops": 334173,
+          "gold": "117900",
+          "cities": 0
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 2759,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 32121,
+          "troops": 434648,
+          "gold": "102750",
+          "cities": 1
+        }
+      ]
+    },
+    {
+      "round": 19,
+      "seats": [
+        "均衡外交",
+        "极速扩张",
+        "经济优先",
+        "军事突袭"
+      ],
+      "winner": "经济优先",
+      "ticks": 13441,
+      "counts": [
+        {
+          "attack": 15,
+          "build_unit": 2,
+          "allianceRequest": 2,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 41,
+          "build_unit": 8,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 20,
+          "build_unit": 2,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 31,
+          "build_unit": 13,
+          "allianceRequest": 3,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 0,
+          "troops": 22473,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 32027,
+          "troops": 1628600,
+          "gold": "370100",
+          "cities": 6
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 7190,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 7973,
+          "troops": 749558,
+          "gold": "98900",
+          "cities": 1
+        }
+      ]
+    },
+    {
+      "round": 20,
+      "seats": [
+        "均衡外交",
+        "极速扩张",
+        "军事突袭",
+        "经济优先"
+      ],
+      "winner": null,
+      "ticks": 18000,
+      "counts": [
+        {
+          "attack": 18,
+          "build_unit": 4,
+          "allianceRequest": 5,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 27,
+          "build_unit": 10,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 17,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 30,
+          "build_unit": 16,
+          "allianceRequest": 7,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 0,
+          "troops": 28709,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 15808,
+          "troops": 2381445,
+          "gold": "54900",
+          "cities": 7
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 17760,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 24192,
+          "troops": 1453374,
+          "gold": "237650",
+          "cities": 2
+        }
+      ]
+    },
+    {
+      "round": 21,
+      "seats": [
+        "均衡外交",
+        "经济优先",
+        "极速扩张",
+        "军事突袭"
+      ],
+      "winner": "经济优先",
+      "ticks": 16461,
+      "counts": [
+        {
+          "attack": 20,
+          "build_unit": 3,
+          "allianceRequest": 2,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 36,
+          "build_unit": 9,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 17,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 20,
+          "build_unit": 13,
+          "allianceRequest": 3,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 0,
+          "troops": 35541,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 32154,
+          "troops": 1587177,
+          "gold": "463200",
+          "cities": 8
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 2475,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 7846,
+          "troops": 666704,
+          "gold": "50900",
+          "cities": 1
+        }
+      ]
+    },
+    {
+      "round": 22,
+      "seats": [
+        "均衡外交",
+        "经济优先",
+        "军事突袭",
+        "极速扩张"
+      ],
+      "winner": null,
+      "ticks": 18000,
+      "counts": [
+        {
+          "attack": 14,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 27,
+          "build_unit": 9,
+          "allianceRequest": 2,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 18,
+          "build_unit": 2,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 22,
+          "build_unit": 9,
+          "allianceRequest": 4,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 0,
+          "troops": 3861,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 21276,
+          "troops": 2366110,
+          "gold": "219900",
+          "cities": 6
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 24220,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 18724,
+          "troops": 1331750,
+          "gold": "158700",
+          "cities": 2
+        }
+      ]
+    },
+    {
+      "round": 23,
+      "seats": [
+        "均衡外交",
+        "军事突袭",
+        "极速扩张",
+        "经济优先"
+      ],
+      "winner": "经济优先",
+      "ticks": 2261,
+      "counts": [
+        {
+          "attack": 21,
+          "build_unit": 2,
+          "allianceRequest": 2,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 35,
+          "build_unit": 1,
+          "allianceRequest": 1,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 21,
+          "build_unit": 1,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 33,
+          "build_unit": 2,
+          "allianceRequest": 4,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 0,
+          "troops": 30837,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "经济优先",
+          "tiles": 32007,
+          "troops": 947954,
+          "gold": "106950",
+          "cities": 1
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 7960,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 7993,
+          "troops": 493965,
+          "gold": "55900",
+          "cities": 0
+        }
+      ]
+    },
+    {
+      "round": 24,
+      "seats": [
+        "均衡外交",
+        "军事突袭",
+        "经济优先",
+        "极速扩张"
+      ],
+      "winner": "极速扩张",
+      "ticks": 4391,
+      "counts": [
+        {
+          "attack": 96,
+          "build_unit": 4,
+          "allianceRequest": 2,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 138,
+          "build_unit": 3,
+          "allianceRequest": 3,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 59,
+          "build_unit": 3,
+          "allianceRequest": 0,
+          "breakAlliance": 0
+        },
+        {
+          "attack": 112,
+          "build_unit": 4,
+          "allianceRequest": 9,
+          "breakAlliance": 0
+        }
+      ],
+      "final": [
+        {
+          "name": "极速扩张",
+          "tiles": 32047,
+          "troops": 881456,
+          "gold": "88300",
+          "cities": 3
+        },
+        {
+          "name": "经济优先",
+          "tiles": 7953,
+          "troops": 422990,
+          "gold": "107450",
+          "cities": 0
+        },
+        {
+          "name": "军事突袭",
+          "tiles": 0,
+          "troops": 7170,
+          "gold": "0",
+          "cities": 0
+        },
+        {
+          "name": "均衡外交",
+          "tiles": 0,
+          "troops": 17307,
+          "gold": "0",
+          "cities": 0
+        }
+      ]
+    }
+  ]
+}
