@@ -25,3 +25,7 @@ GitHub Pages：仓库 Settings → Pages → Deploy from a branch → main / (ro
 ## Chrome 小菜单
 
 extension 是 Manifest V3 扩展源码。Chrome 扩展管理页开启开发者模式后加载 extension 文件夹（需用户自行安装）。FrontWars 官方页面仅显示回放入口；本地页面可启动四策略自动赛。不是官方服代打插件，也尚未接管原版客户端。
+
+### 本地自动赛服务
+
+本机已配置的引擎在 work/OpenFrontIO。运行 node local-service.cjs，再访问 http://127.0.0.1:8765/；扩展菜单的本地自动赛按钮调用该服务。其他电脑需将 OPENFRONT_DIR 设为已安装依赖且放入 tournament.ts 的引擎目录，并按上文放置 outputs/results-first24.json。状态显示在 /api/status。此功能运行四策略自动赛，不接管官方游戏客户端。
