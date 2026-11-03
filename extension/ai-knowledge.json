@@ -1,0 +1,99 @@
+{
+  "diplomacy": {
+    "revision": "1.1-protection-modes",
+    "betrayalDefenseLoss": 0.5,
+    "penaltyTicks": 300,
+    "postBetrayalReserve": 0.65,
+    "defenseSafetyMargin": 1.3,
+    "targetCounterattackFraction": 0.3,
+    "otherFrontThreatFraction": 0.35,
+    "minimumAssaultRatio": 0.65,
+    "leaderShare": 0.45,
+    "urgentLeaderShare": 0.6,
+    "rules": [
+      "开启保护时，禁止撕毁受保护玩家的盟约；普通模式按收益和50%防御惩罚决定",
+      "主动撕约会降低50%防御力，默认持续300游戏刻；优先读取当前原版配置",
+      "正在受攻击、多线作战、防守不足时保持盟约",
+      "盟约即将到期则优先等待自然到期",
+      "只有可接触的关键突破目标且攻防预算均足够时才考虑撕约",
+      "撕约惩罚期间增加留守兵力，禁止连续撕约"
+    ]
+  },
+  "spatial": {
+    "revision": "1.0",
+    "maxAnalysisCells": 180000,
+    "minimumAllySpacing": 35,
+    "maximumAllySpacing": 95,
+    "relocationImprovement": 0.2,
+    "maxRelocations": 2,
+    "rules": [
+      "优先有多条发展方向的大块可用陆地，避开小岛和被占领地包围的小口袋",
+      "强敌密度和兵力计入出生风险，弱人机不能与强国等价",
+      "给友军保留扩张距离和通路，出生预留点互相错开",
+      "仅在原版选点阶段，出现显著更优位置时有限次重新选点",
+      "AI互保或追杀时组织共同目标，至少两个AI有真实接触面及足够合计兵力",
+      "保留驻军，优先夺取敌方控制的通道，避免抢占友军唯一出口"
+    ]
+  },
+  "engagement": {
+    "humanPeaceTicks": 1800,
+    "humanAttackAdvantage": 1.8,
+    "maxAI": 25,
+    "rules": [
+      "初始零个AI，每次添加一个，最多二十五个",
+      "护主独立控制本人保护；AI互保只保护AI之间",
+      "前期不主动攻击真人，受到攻击可以防卫",
+      "后期进攻真人需要明显兵力优势且不能多线冒进",
+      "追杀由本人点击目标下达，目标优先但仍保留驻军和合法性检查",
+      "追杀期间AI暂时互保，不默认保护未开启护主的本人"
+    ]
+  },
+  "economyAndSurvival": {
+    "rules": [
+      "有强敌相邻时提高驻军，不再因存在中立地一律只留18%容量",
+      "经济基础未建立时提高对强国的进攻门槛",
+      "不必先建两座城市，已有一座城市也可评估合法升级",
+      "强化前期边境防御与外交，避免同时与多个人类和强国交战"
+    ],
+    "stableWinRateVerified": false
+  },
+  "offensiveOpportunity": {
+    "advantageTroopRatio": 2.5,
+    "advantageLandRatio": 1.1,
+    "priority": "before capacity growth and neutral expansion gates",
+    "requires": "native attack permission; engagement allowed; enough spendable troops after reserves; no dangerous front or material incoming attack",
+    "guardAndTreatiesPreserved": true,
+    "onlineVerified": false
+  },
+  "revengeMode": {
+    "playerClientIDOnly": true,
+    "pregameSelection": true,
+    "copyFromNativeLobbyRoster": true,
+    "waitForPublicTargetSpawn": true,
+    "fallbackBeforeSpawnCutoff": true,
+    "legalNearbySpawnRange": [
+      48,
+      180
+    ],
+    "distributedRoles": 25,
+    "temporaryAIMutualProtection": true,
+    "noForcedResurrection": true,
+    "usesExistingHuntPolicy": true,
+    "liveOnlineVerified": false,
+    "localNativeValidated": true
+  },
+  "peacePolicy": {
+    "rules": [
+      "正在交战不结盟",
+      "己方AI正在围攻的目标不结盟",
+      "兵力与领土明显占优不结盟",
+      "接近收尾的目标不结盟",
+      "复仇追杀目标禁止求和、接受和续约",
+      "保护开启时仍维护己方联盟",
+      "现有盟约按原版50%防御惩罚评估解除"
+    ],
+    "advantageTroops": 1.35,
+    "advantageLand": 1.1,
+    "finalIntentGuard": true
+  }
+}
