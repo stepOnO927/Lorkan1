@@ -110,5 +110,19 @@
     ],
     "twoFrontReserve": "top two hostile border armies combined times 1.05",
     "traitorPenaltyAdjusted": true
+  },
+  "infrastructureLayout": {
+    "cityBlastMargin": 8,
+    "factoryMinimumSpacing": 28,
+    "gridCells": 1600,
+    "criticalCoverage": 2,
+    "rules": [
+      "城市分散选址，原子弹外半径的两倍加安全间距",
+      "工厂仍需真实铁路连接，优先服务缺少工厂的城市",
+      "防空按各区域覆盖缺口补建，关键城市在核威胁下需至少双覆盖",
+      "防空位置错开，避免与另一套防空被同一原子弹同时覆盖",
+      "在建建筑参与布局和覆盖规划，已完成覆盖另行显示",
+      "先补防空缺口，再升级已有防空及储备进攻核武"
+    ]
   }
 }
