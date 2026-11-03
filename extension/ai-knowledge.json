@@ -95,5 +95,20 @@
     "advantageTroops": 1.35,
     "advantageLand": 1.1,
     "finalIntentGuard": true
+  },
+  "territory": {
+    "lateTick": 1800,
+    "neighborGarrisonMargin": 1.1,
+    "attackArmyMargin": 1.35,
+    "minimumAssaultRatio": 0.3,
+    "rules": [
+      "后期领土停滞时优先找可安全夺取的地盘",
+      "不要求本国领土大于目标，也不等待人口容量满额",
+      "出兵后的留守高于最强非盟友接壤敌人兵力",
+      "实际兵力低于周边威胁或受明显进攻时优先防守",
+      "保护、前期真人避战和撕约惩罚继续有效"
+    ],
+    "twoFrontReserve": "top two hostile border armies combined times 1.05",
+    "traitorPenaltyAdjusted": true
   }
 }
