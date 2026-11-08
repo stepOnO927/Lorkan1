@@ -1,0 +1,312 @@
+{
+  "recordsChecked": 60,
+  "newSeeds": 30,
+  "distinctFromOld": true,
+  "originalNativeWinnerRequired": true,
+  "settingsUnchanged": true,
+  "finalHash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b",
+  "verificationCount": 30,
+  "onlineAcceptance": false,
+  "checks": [
+    {
+      "file": "fresh-001.json",
+      "winner": "LorkanGuestAI3",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-002.json",
+      "winner": "LorkanGuestAI1",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-003.json",
+      "winner": "LorkanGuestAI4",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-004.json",
+      "winner": "LorkanGuestAI3",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-005.json",
+      "winner": "LorkanGuestAI3",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-006.json",
+      "winner": "LorkanGuestAI1",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-007.json",
+      "winner": "LorkanGuestAI3",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-008.json",
+      "winner": "LorkanGuestAI2",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-009.json",
+      "winner": "LorkanGuestAI3",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-010.json",
+      "winner": "LorkanGuestAI1",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-011.json",
+      "winner": "Iceland",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-012.json",
+      "winner": "LorkanGuestAI4",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-013.json",
+      "winner": "LorkanGuestAI1",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-014.json",
+      "winner": "LorkanGuestAI2",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-015.json",
+      "winner": "LorkanGuestAI3",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-016.json",
+      "winner": "LorkanGuestAI4",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-017.json",
+      "winner": "LorkanGuestAI4",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-018.json",
+      "winner": "LorkanGuestAI2",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-019.json",
+      "winner": "LorkanGuestAI4",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-020.json",
+      "winner": "LorkanGuestAI4",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-021.json",
+      "winner": "LorkanGuestAI3",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-022.json",
+      "winner": "LorkanGuestAI1",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-023.json",
+      "winner": "LorkanGuestAI1",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-024.json",
+      "winner": "LorkanGuestAI2",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-025.json",
+      "winner": "LorkanGuestAI2",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-026.json",
+      "winner": "LorkanGuestAI2",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-027.json",
+      "winner": "LorkanGuestAI4",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-028.json",
+      "winner": "LorkanGuestAI3",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-029.json",
+      "winner": "LorkanGuestAI4",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "fresh-030.json",
+      "winner": "LorkanGuestAI1",
+      "hash": "774f992c17911a915bb62b5285792e55b39b057d784914b8c4116006164ef74e"
+    },
+    {
+      "file": "final-001.json",
+      "winner": "LorkanGuestAI3",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-002.json",
+      "winner": "LorkanGuestAI1",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-003.json",
+      "winner": "LorkanGuestAI4",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-004.json",
+      "winner": "LorkanGuestAI3",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-005.json",
+      "winner": "LorkanGuestAI3",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-006.json",
+      "winner": "LorkanGuestAI1",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-007.json",
+      "winner": "LorkanGuestAI3",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-008.json",
+      "winner": "LorkanGuestAI2",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-009.json",
+      "winner": "LorkanGuestAI3",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-010.json",
+      "winner": "LorkanGuestAI1",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-011.json",
+      "winner": "LorkanGuestAI3",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-012.json",
+      "winner": "LorkanGuestAI4",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-013.json",
+      "winner": "LorkanGuestAI1",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-014.json",
+      "winner": "LorkanGuestAI2",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-015.json",
+      "winner": "LorkanGuestAI3",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-016.json",
+      "winner": "LorkanGuestAI4",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-017.json",
+      "winner": "LorkanGuestAI4",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-018.json",
+      "winner": "LorkanGuestAI2",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-019.json",
+      "winner": "LorkanGuestAI4",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-020.json",
+      "winner": "LorkanGuestAI4",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-021.json",
+      "winner": "LorkanGuestAI4",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-022.json",
+      "winner": "LorkanGuestAI1",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-023.json",
+      "winner": "LorkanGuestAI1",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-024.json",
+      "winner": "LorkanGuestAI2",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-025.json",
+      "winner": "LorkanGuestAI2",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-026.json",
+      "winner": "LorkanGuestAI4",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-027.json",
+      "winner": "LorkanGuestAI4",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-028.json",
+      "winner": "LorkanGuestAI3",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-029.json",
+      "winner": "LorkanGuestAI4",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    },
+    {
+      "file": "final-030.json",
+      "winner": "LorkanGuestAI1",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b"
+    }
+  ]
+}

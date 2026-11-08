@@ -1,0 +1,362 @@
+{
+  "rules": "Original cached42.5 WASM, World Compact Medium, default resources, four protected AI,30 weak bots,10 nations, original10minute winner event. No opponent/rule/resource edits.",
+  "oldFailures": [
+    {
+      "round": 3,
+      "observation": "Bhutan81160 tiles; multiple AI below hostile reserve, shrank from earlier territorial peaks.",
+      "fix": "Confirmed landing follow-up replaces waiting on the global reinforcement cooldown; old seed won with1.5.5."
+    },
+    {
+      "round": 4,
+      "observation": "Norway44738 vs best own33160. About1.97M free army but no land contact.",
+      "fix": "One-shot bounded follow-up on established beachheads; old seed won with1.5.5."
+    },
+    {
+      "round": 5,
+      "observation": "Italy42255 vs best own40821. Late Italy boat at6186 only115ticks before native limit.",
+      "fix": "Immediate bounded follow-up once a landing has occupied coast, without changing target selection; old seed won with1.5.5."
+    },
+    {
+      "round": 23,
+      "observation": "Ireland49454, Egypt46318; three AI shrank severely. Existing tower83cells from front vs native30range.",
+      "fix": "Spawn/fort experiments still lost and were rejected. Landing follow-up won same seed with1.5.5; result does not prove towers are solved."
+    }
+  ],
+  "newFailures": [
+    {
+      "round": 11,
+      "original": "fresh-011.json",
+      "winner": "Iceland",
+      "observed": "All four AI alive. Iceland65156 land vs largest own44481. Own leader had about623k free but held for incoming>20%; weaker AI lost earlier territory. At6200 incomingArgentina502668 vs own1799600.",
+      "experiments": [
+        {
+          "version": "1.5.6",
+          "change": "Relax incoming pressure threshold only under army and reserve advantage",
+          "decision": "rejected: round11 still lost and less own leader land",
+          "results": [
+            {
+              "file": "outputs/Lorkan1-next30-20261108/retest-011-v156.json",
+              "winner": "Iceland",
+              "won": false,
+              "version": "1.5.6",
+              "hash": "67c9e4c4c52bd12b87a2f08fccbc3127550d38d4778462ec0066351d4346354c",
+              "land": [
+                11779,
+                11390,
+                520,
+                34354
+              ],
+              "allAlive": true
+            }
+          ]
+        },
+        {
+          "version": "1.5.7",
+          "change": "Expanded naval candidates also before late phase, with land-yield route ranking later",
+          "decision": "rejected: old3 catastrophic regression despite new11 win",
+          "results": [
+            {
+              "file": "outputs/Lorkan1-next30-20261108/retest-011-v157.json",
+              "winner": "LorkanGuestAI4",
+              "won": true,
+              "version": "1.5.7",
+              "hash": "9e3a48e68dee63b056922f6d08f372a4b6af7a7fece10f3284cd4ae4d61bdb69",
+              "land": [
+                18254,
+                36255,
+                10610,
+                91450
+              ],
+              "allAlive": true
+            },
+            {
+              "file": "outputs/Lorkan1-e30-20261108/retest-v157-003.json",
+              "winner": "Bhutan",
+              "won": false,
+              "version": "1.5.7",
+              "hash": "9e3a48e68dee63b056922f6d08f372a4b6af7a7fece10f3284cd4ae4d61bdb69",
+              "land": [
+                0,
+                0,
+                347,
+                0
+              ],
+              "allAlive": false
+            }
+          ]
+        },
+        {
+          "version": "1.5.8",
+          "change": "Keep original candidates and ranking before tick4200",
+          "decision": "rejected: new11 still lost",
+          "results": [
+            {
+              "file": "outputs/Lorkan1-next30-20261108/retest-011-v158.json",
+              "winner": "Iceland",
+              "won": false,
+              "version": "1.5.8",
+              "hash": "9542c0399b7f2bef349e582563912deae515693d529f8e7064569b8509c204de",
+              "land": [
+                17967,
+                7657,
+                5355,
+                48701
+              ],
+              "allAlive": true
+            }
+          ]
+        },
+        {
+          "version": "1.5.9",
+          "change": "Keep original early choices; yield ranking and eight candidates after1800",
+          "decision": "rejected: fixed11 and oldfour but new3 lost toZambia",
+          "results": [
+            {
+              "file": "outputs/Lorkan1-next30-20261108/retest-011-v159.json",
+              "winner": "LorkanGuestAI3",
+              "won": true,
+              "version": "1.5.9",
+              "hash": "dfa8162f6fbbd093e6e8e579ec417065e0647034b99b574bee2a0b29fcc613ee",
+              "land": [
+                35282,
+                6017,
+                68804,
+                46067
+              ],
+              "allAlive": true
+            },
+            {
+              "file": "outputs/Lorkan1-next30-20261108/verify-003.json",
+              "winner": "Zambia",
+              "won": false,
+              "version": "1.5.9",
+              "hash": "dfa8162f6fbbd093e6e8e579ec417065e0647034b99b574bee2a0b29fcc613ee",
+              "land": [
+                45938,
+                10177,
+                5024,
+                1304
+              ],
+              "allAlive": true
+            }
+          ]
+        },
+        {
+          "version": "1.6.0",
+          "change": "Enable yield-based maritime catchup only after1800 while enemy leader matches/exceeds strongest protected-cohort territory and has at least80% of strongest cohort standing army; otherwise original naval behavior. All engagement and native action guards retained.",
+          "decision": "Adopted after frozen same-source regression: 30/30 new-seed set and 4/4 old failed seeds. This is an iterated regression set, not independent unseen validation or a universal guarantee.",
+          "results": [
+            {
+              "file": "outputs/Lorkan1-next30-20261108/v160-003.json",
+              "winner": "LorkanGuestAI4",
+              "won": true,
+              "version": "1.6.0",
+              "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b",
+              "land": [
+                23975,
+                36593,
+                22152,
+                61032
+              ],
+              "allAlive": true
+            },
+            {
+              "file": "outputs/Lorkan1-next30-20261108/v160-011.json",
+              "winner": "LorkanGuestAI3",
+              "won": true,
+              "version": "1.6.0",
+              "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b",
+              "land": [
+                23226,
+                27562,
+                59988,
+                42644
+              ],
+              "allAlive": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "experimentJournal": [
+    {
+      "version": "1.5.6",
+      "change": "Relax incoming pressure threshold only under army and reserve advantage",
+      "decision": "rejected: round11 still lost and less own leader land",
+      "results": [
+        {
+          "file": "outputs/Lorkan1-next30-20261108/retest-011-v156.json",
+          "winner": "Iceland",
+          "won": false,
+          "version": "1.5.6",
+          "hash": "67c9e4c4c52bd12b87a2f08fccbc3127550d38d4778462ec0066351d4346354c",
+          "land": [
+            11779,
+            11390,
+            520,
+            34354
+          ],
+          "allAlive": true
+        }
+      ]
+    },
+    {
+      "version": "1.5.7",
+      "change": "Expanded naval candidates also before late phase, with land-yield route ranking later",
+      "decision": "rejected: old3 catastrophic regression despite new11 win",
+      "results": [
+        {
+          "file": "outputs/Lorkan1-next30-20261108/retest-011-v157.json",
+          "winner": "LorkanGuestAI4",
+          "won": true,
+          "version": "1.5.7",
+          "hash": "9e3a48e68dee63b056922f6d08f372a4b6af7a7fece10f3284cd4ae4d61bdb69",
+          "land": [
+            18254,
+            36255,
+            10610,
+            91450
+          ],
+          "allAlive": true
+        },
+        {
+          "file": "outputs/Lorkan1-e30-20261108/retest-v157-003.json",
+          "winner": "Bhutan",
+          "won": false,
+          "version": "1.5.7",
+          "hash": "9e3a48e68dee63b056922f6d08f372a4b6af7a7fece10f3284cd4ae4d61bdb69",
+          "land": [
+            0,
+            0,
+            347,
+            0
+          ],
+          "allAlive": false
+        }
+      ]
+    },
+    {
+      "version": "1.5.8",
+      "change": "Keep original candidates and ranking before tick4200",
+      "decision": "rejected: new11 still lost",
+      "results": [
+        {
+          "file": "outputs/Lorkan1-next30-20261108/retest-011-v158.json",
+          "winner": "Iceland",
+          "won": false,
+          "version": "1.5.8",
+          "hash": "9542c0399b7f2bef349e582563912deae515693d529f8e7064569b8509c204de",
+          "land": [
+            17967,
+            7657,
+            5355,
+            48701
+          ],
+          "allAlive": true
+        }
+      ]
+    },
+    {
+      "version": "1.5.9",
+      "change": "Keep original early choices; yield ranking and eight candidates after1800",
+      "decision": "rejected: fixed11 and oldfour but new3 lost toZambia",
+      "results": [
+        {
+          "file": "outputs/Lorkan1-next30-20261108/retest-011-v159.json",
+          "winner": "LorkanGuestAI3",
+          "won": true,
+          "version": "1.5.9",
+          "hash": "dfa8162f6fbbd093e6e8e579ec417065e0647034b99b574bee2a0b29fcc613ee",
+          "land": [
+            35282,
+            6017,
+            68804,
+            46067
+          ],
+          "allAlive": true
+        },
+        {
+          "file": "outputs/Lorkan1-next30-20261108/verify-003.json",
+          "winner": "Zambia",
+          "won": false,
+          "version": "1.5.9",
+          "hash": "dfa8162f6fbbd093e6e8e579ec417065e0647034b99b574bee2a0b29fcc613ee",
+          "land": [
+            45938,
+            10177,
+            5024,
+            1304
+          ],
+          "allAlive": true
+        }
+      ]
+    },
+    {
+      "version": "1.6.0",
+      "change": "Enable yield-based maritime catchup only after1800 while enemy leader matches/exceeds strongest protected-cohort territory and has at least80% of strongest cohort standing army; otherwise original naval behavior. All engagement and native action guards retained.",
+      "decision": "Adopted after frozen same-source regression: 30/30 new-seed set and 4/4 old failed seeds. This is an iterated regression set, not independent unseen validation or a universal guarantee.",
+      "results": [
+        {
+          "file": "outputs/Lorkan1-next30-20261108/v160-003.json",
+          "winner": "LorkanGuestAI4",
+          "won": true,
+          "version": "1.6.0",
+          "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b",
+          "land": [
+            23975,
+            36593,
+            22152,
+            61032
+          ],
+          "allAlive": true
+        },
+        {
+          "file": "outputs/Lorkan1-next30-20261108/v160-011.json",
+          "winner": "LorkanGuestAI3",
+          "won": true,
+          "version": "1.6.0",
+          "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b",
+          "land": [
+            23226,
+            27562,
+            59988,
+            42644
+          ],
+          "allAlive": true
+        }
+      ]
+    }
+  ],
+  "additionalRegressionFailure": {
+    "round": 3,
+    "version": "1.5.9",
+    "winner": "Zambia",
+    "observation": "Own strongest army3.85M and45938land, winnerZambia68075. Earlier yield-based overseas strategy changed a baseline win into loss. Original candidate list and route ranking retained unless serious enemy lead threatens cohort.",
+    "finalTest": {
+      "file": "outputs/Lorkan1-next30-20261108/v160-003.json",
+      "winner": "LorkanGuestAI4",
+      "won": true,
+      "version": "1.6.0",
+      "hash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b",
+      "land": [
+        23975,
+        36593,
+        22152,
+        61032
+      ],
+      "allAlive": true
+    }
+  },
+  "finalValidationNote": "The final30 cover these precommitted new seeds after iteration, so they are a same-source regression set, not30 unseen holdouts. All original losses remain in first-pass data.",
+  "finalResult": {
+    "version": "1.6.0",
+    "wins": 30,
+    "losses": 0,
+    "oldWins": 4,
+    "oldGames": 4,
+    "sameHash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b",
+    "goalForLocalRegressionMet": true,
+    "independentHoldout": false
+  }
+}

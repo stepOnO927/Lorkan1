@@ -1,0 +1,12 @@
+{
+  "version": "1.6.0",
+  "publicExtensionBlob": "5d859c412442a91fa2035e0c906a47c5722d03a5",
+  "publicPolicyHash": "d1f79bd1ad454a8ab3480752775113d6dd2f3c8dc0bfc0a6327caff3ee97e692",
+  "nativeFrozenPolicyHash": "8b43773cc4b5713436b48588b5b7758d233713a735111cffe21cb43c8cbae93b",
+  "policyDiffersOnlyInDefaultOwnerDisplay": true,
+  "ownerBindingUsesNativeClientID": true,
+  "replayRecords": 68,
+  "nativeReplayObjectsUnchanged": true,
+  "periodicControllerStatusOmittedFromPublicArchive": true,
+  "replayArchiveBlob": "5c47d99dd81ec4ae87e1025c5036f45cb67de570"
+}

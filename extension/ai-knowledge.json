@@ -1,12 +1,12 @@
 {
   "diplomacy": {
-    "revision": "1.1-protection-modes",
+    "revision": "1.5.5-full-counterattack",
     "betrayalDefenseLoss": 0.5,
     "penaltyTicks": 300,
     "postBetrayalReserve": 0.65,
     "defenseSafetyMargin": 1.3,
-    "targetCounterattackFraction": 0.3,
-    "otherFrontThreatFraction": 0.35,
+    "targetCounterattackFraction": 1,
+    "otherFrontThreatFraction": 1,
     "minimumAssaultRatio": 0.65,
     "leaderShare": 0.45,
     "urgentLeaderShare": 0.6,
@@ -123,6 +123,91 @@
       "防空位置错开，避免与另一套防空被同一原子弹同时覆盖",
       "在建建筑参与布局和覆盖规划，已完成覆盖另行显示",
       "先补防空缺口，再升级已有防空及储备进攻核武"
+    ]
+  },
+  "version": "1.6.0",
+  "infrastructureEconomy": {
+    "samSearch": "dense owned city-local candidates, rotate capped native legality queries, validate native returned location",
+    "expansion": "allow first two cities; third uncovered city only while SAM unaffordable and no heavy incoming attack; thereafter require coverage",
+    "stationUpgrade": "permit basic railway income upgrades while saving for unaffordable air defense",
+    "limitations": "normal-resource matched-seed sample still lost to Uruguay; 2 completed SAM and 1 in construction, not complete layered protection"
+  },
+  "weakBotRaid": {
+    "enabledOnly": "early existing population-capacity wait; normal attacks and all garrison rules retain priority",
+    "maxStandingFraction": 0.2,
+    "maxTargetTroopFraction": 0.12,
+    "maxIncomingFraction": 0.1,
+    "requiresNativeCanAttack": true,
+    "protectedAndHuntRulesPreserved": true
+  },
+  "iterationStatus": {
+    "phase": "fixed-policy same-seed regression",
+    "wins": 26,
+    "games": 30,
+    "failedRounds": [
+      3,
+      4,
+      5,
+      23
+    ],
+    "allWin": false,
+    "ERegressionWon": true,
+    "scope": "local cached native FrontWars42.5, World Compact, ordinary resources, Medium, four mutually protected AI, 30 bots and 10 nations, passive owner placeholder, original ten-minute time-limit winner event"
+  },
+  "populationCapacity": {
+    "requirePositive": true,
+    "source": "native view first, original playerProfile fallback",
+    "onUnavailable": "pause military decisions instead of treating missing population limit as zero"
+  },
+  "reinforcement": {
+    "capStandingFraction": 0.2,
+    "maxFreeFraction": 0.6,
+    "incomingLimit": 0.1,
+    "intervalTicks": 80,
+    "onlyExistingDepletedTargets": true,
+    "keepGarrison": true
+  },
+  "populationExpansion": {
+    "useActualSpareArmyForNeutralAndWeakBots": true,
+    "retainIncomingAndGarrisonChecks": true,
+    "highStartingCityPopulationDoesNotForceExpansionWait": true
+  },
+  "actualFrontReserve": {
+    "strongestNeighborMargin": 1.1,
+    "combineTwoFullFrontsOnlyWhenBothActuallyIncoming": true,
+    "traitorDebuffPreserved": true
+  },
+  "cautiousTimedRenewal": {
+    "onlyKnownTimedGames": true,
+    "ownArmyAdvantage": 1.35,
+    "noIncoming": true,
+    "noTraitor": true,
+    "onlyRenewalNotNewPeace": true,
+    "noAutomaticBetrayal": true
+  },
+  "landingFollowup": {
+    "revision": "1.5.5",
+    "requiresOwnedDestination": true,
+    "requiresActiveLegalTarget": true,
+    "maxArmyFraction": 0.25,
+    "maxFreeFraction": 0.8,
+    "maxIncomingFraction": 0.1,
+    "oncePerLanding": true,
+    "expiryTicks": 1500
+  },
+  "maritimeCatchup": {
+    "revision": "1.6.0",
+    "afterTick": 1800,
+    "enemyLandAtLeastStrongestProtectedAlly": true,
+    "enemyArmyAtLeastStrongestAllyFraction": 0.8,
+    "normalCandidates": 4,
+    "catchupCandidates": 8,
+    "minimumLateArmyAdvantage": 1.35,
+    "selection": "yield per standing defender candidates, then route distance divided by square root of target land; native permissions and protection required",
+    "rules": [
+      "只在敌方领土领先且军力构成威胁时启用收益排序，优势局保留原有海运策略",
+      "仍保留足以压过最强接壤敌人的驻军；不因急于夺地放宽来袭压力或撕约惩罚",
+      "登陆点已占住且存在合法战线后，有限接应一次；不反复向已丢失滩头投兵"
     ]
   }
 }

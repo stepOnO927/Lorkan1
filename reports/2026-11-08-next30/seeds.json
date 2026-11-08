@@ -1,0 +1,125 @@
+{
+  "scope": "30 distinct new seeds after four old-regression checks; same native42.5 World Compact Medium ordinary-resource rules",
+  "seeds": [
+    {
+      "round": 1,
+      "seed": "LK30B-1108-01-fbf40f7d"
+    },
+    {
+      "round": 2,
+      "seed": "LK30B-1108-02-d205a898"
+    },
+    {
+      "round": 3,
+      "seed": "LK30B-1108-03-3753f225"
+    },
+    {
+      "round": 4,
+      "seed": "LK30B-1108-04-df53afda"
+    },
+    {
+      "round": 5,
+      "seed": "LK30B-1108-05-60980c3d"
+    },
+    {
+      "round": 6,
+      "seed": "LK30B-1108-06-e1eea234"
+    },
+    {
+      "round": 7,
+      "seed": "LK30B-1108-07-45bde701"
+    },
+    {
+      "round": 8,
+      "seed": "LK30B-1108-08-ac744179"
+    },
+    {
+      "round": 9,
+      "seed": "LK30B-1108-09-56c9ab78"
+    },
+    {
+      "round": 10,
+      "seed": "LK30B-1108-10-8c05ffb3"
+    },
+    {
+      "round": 11,
+      "seed": "LK30B-1108-11-98b27365"
+    },
+    {
+      "round": 12,
+      "seed": "LK30B-1108-12-68056906"
+    },
+    {
+      "round": 13,
+      "seed": "LK30B-1108-13-7ac59912"
+    },
+    {
+      "round": 14,
+      "seed": "LK30B-1108-14-6a85bb73"
+    },
+    {
+      "round": 15,
+      "seed": "LK30B-1108-15-66cddeb7"
+    },
+    {
+      "round": 16,
+      "seed": "LK30B-1108-16-165ab8e0"
+    },
+    {
+      "round": 17,
+      "seed": "LK30B-1108-17-9775437d"
+    },
+    {
+      "round": 18,
+      "seed": "LK30B-1108-18-53df7d11"
+    },
+    {
+      "round": 19,
+      "seed": "LK30B-1108-19-0fedef0d"
+    },
+    {
+      "round": 20,
+      "seed": "LK30B-1108-20-b0c02ff2"
+    },
+    {
+      "round": 21,
+      "seed": "LK30B-1108-21-43f537ed"
+    },
+    {
+      "round": 22,
+      "seed": "LK30B-1108-22-cc0d2130"
+    },
+    {
+      "round": 23,
+      "seed": "LK30B-1108-23-f48f8d2b"
+    },
+    {
+      "round": 24,
+      "seed": "LK30B-1108-24-bf572dc7"
+    },
+    {
+      "round": 25,
+      "seed": "LK30B-1108-25-6de2d050"
+    },
+    {
+      "round": 26,
+      "seed": "LK30B-1108-26-d9af8304"
+    },
+    {
+      "round": 27,
+      "seed": "LK30B-1108-27-989c639f"
+    },
+    {
+      "round": 28,
+      "seed": "LK30B-1108-28-56542afd"
+    },
+    {
+      "round": 29,
+      "seed": "LK30B-1108-29-7f001b4a"
+    },
+    {
+      "round": 30,
+      "seed": "LK30B-1108-30-0b861caa"
+    }
+  ]
+}
