@@ -18,10 +18,14 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm test && npm run check
       - uses: actions/configure-pages@v5
         with:
           enablement: true
-      - run: mkdir public && cp index.html results.json lab.html lab.css lab.js replay-analysis.js privacy.html sample-observation.json public/
+      - run: mkdir public && cp index.html results.json lab.html lab.css lab.js replay-analysis.js privacy.html sample-observation.json public/ && cp -R reports downloads public/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: public
