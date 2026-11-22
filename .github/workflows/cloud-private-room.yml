@@ -1,0 +1,53 @@
+name: Cloud private room AI
+
+on:
+  workflow_dispatch:
+    inputs:
+      ai_count:
+        description: Number of independent Lorkan guest seats (1-25)
+        required: true
+        default: '25'
+      max_minutes:
+        description: Stop after this many minutes
+        required: true
+        default: '90'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lorkan-private-room
+  cancel-in-progress: false
+
+jobs:
+  private-room:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Check out Lorkan1
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Install runner
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Install browser on cloud runner
+        run: npx playwright install --with-deps chromium
+      - name: Run Lorkan guests
+        env:
+          LORKAN_ROOM_ID: ${{ secrets.LORKAN_PRIVATE_ROOM }}
+          LORKAN_AI_COUNT: ${{ inputs.ai_count }}
+          LORKAN_MAX_MINUTES: ${{ inputs.max_minutes }}
+          LORKAN_RESULT_PATH: cloud-private-room-result.json
+        run: node scripts/cloud-private-room.mjs
+      - name: Save admission and command report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: private-room-report
+          path: cloud-private-room-result.json
+          if-no-files-found: ignore
+          retention-days: 7
+
