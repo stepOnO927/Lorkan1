@@ -1,0 +1,64 @@
+name: Cloud engine capacity check
+
+on:
+  workflow_dispatch:
+    inputs:
+      ticks:
+        description: Native engine game ticks (cloud capacity check only)
+        required: false
+        default: '1200'
+  push:
+    paths:
+      - .github/workflows/cloud-capacity.yml
+
+permissions:
+  contents: read
+
+jobs:
+  capacity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out Lorkan1
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Check extension source
+        run: npm run check
+      - name: Fetch pinned OpenFront engine
+        run: |
+          git clone --filter=blob:none https://github.com/openfrontio/OpenFrontIO.git upstream
+          git -C upstream checkout 030274df6e377a57e784a9f6f9865720b0dfbbba
+      - name: Install engine test dependencies
+        working-directory: upstream
+        run: |
+          npm install --global npm@12
+          npm ci --ignore-scripts --no-audit --no-fund
+      - name: Run 25 native bots in one cloud process
+        working-directory: upstream
+        env:
+          TICKS: ${{ inputs.ticks || '1200' }}
+        run: |
+          node_modules/.bin/tsx tests/perf/fullgame/FullGamePerf.ts \
+            --map world --ticks "$TICKS" --bots 25 --nations 10 \
+            --seed LORKAN-CLOUD-CAPACITY \
+            --no-cpu-profile --no-exec-profile --no-gc-profile --no-alloc-profile \
+            | tee ../cloud-capacity.log
+      - name: Explain test scope
+        if: always()
+        run: |
+          printf '%s\n' \
+            'This job verifies that a GitHub-hosted runner can run 25 native OpenFront bots in one headless process.' \
+            'It does not execute the Lorkan1 browser extension or join a FrontWars public room.' \
+            > cloud-capacity-scope.txt
+      - name: Save cloud log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloud-capacity-25
+          path: |
+            cloud-capacity.log
+            cloud-capacity-scope.txt
+          retention-days: 7
