@@ -139,7 +139,7 @@ try {
     if ([...statuses.values()].filter(s => s.enabled).length === count) break;
     if (attempt === 19) throw Error('Some admitted guests did not confirm AI control');
   }
-  console.log(JSON.stringify({ event: 'all_ai_armed', ...summary() }));
+  console.log(JSON.stringify({ ...summary(), event: 'all_ai_armed' }));
   let lastLog = 0;
   while (!stopping && Date.now() - startedAt < maxMinutes * 60000) {
     await pause(5000);
