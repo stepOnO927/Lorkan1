@@ -153,7 +153,9 @@ try {
   fs.writeFileSync(process.env.LORKAN_RESULT_PATH ?? 'cloud-private-room-result.json', JSON.stringify(result, null, 2));
   console.log(JSON.stringify(summary()));
 } catch (error) {
-  console.error(JSON.stringify({ event: 'failure', message: error.message, ...summary() }));
+  const failure = { ...summary(), event: 'failure', message: error.message, failures };
+  fs.writeFileSync(process.env.LORKAN_RESULT_PATH ?? 'cloud-private-room-result.json', JSON.stringify(failure, null, 2));
+  console.error(JSON.stringify(failure));
   process.exitCode = 1;
 } finally { await stop(); }
 
