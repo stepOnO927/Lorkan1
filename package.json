@@ -9,6 +9,11 @@
   },
   "scripts": {
     "test": "node scripts/test.mjs",
-    "check": "node scripts/check.mjs"
+    "check": "node scripts/check.mjs",
+    "cloud-private-room": "node scripts/cloud-private-room.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.57.0"
   }
 }
+
