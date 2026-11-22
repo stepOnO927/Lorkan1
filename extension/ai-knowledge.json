@@ -125,7 +125,7 @@
       "先补防空缺口，再升级已有防空及储备进攻核武"
     ]
   },
-  "version": "1.6.0",
+  "version": "1.6.1",
   "infrastructureEconomy": {
     "samSearch": "dense owned city-local candidates, rotate capped native legality queries, validate native returned location",
     "expansion": "allow first two cities; third uncovered city only while SAM unaffordable and no heavy incoming attack; thereafter require coverage",
@@ -209,5 +209,13 @@
       "仍保留足以压过最强接壤敌人的驻军；不因急于夺地放宽来袭压力或撕约惩罚",
       "登陆点已占住且存在合法战线后，有限接应一次；不反复向已丢失滩头投兵"
     ]
+  },
+  "clientCompatibility": {
+    "profiles": [
+      "frontwars-2026-11-21",
+      "frontwars-42.5-legacy"
+    ],
+    "unknownClient": "stop with visible error; no gameplay intents",
+    "lazyGameLoad": true
   }
 }

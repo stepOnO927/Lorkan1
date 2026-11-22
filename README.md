@@ -2,9 +2,9 @@
 
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](LICENSE)
 
-用于获许可 FrontWars 私人房间的规则型 AI 浏览器扩展，以及 OpenFront 本地对战回放实验。当前扩展版本 **1.6.0（本地同种子回归版）**；实验项目，不能保证胜率，尚未完成公网全流程验收。
+用于获许可 FrontWars 私人房间的规则型 AI 浏览器扩展，以及 OpenFront 本地对战回放实验。当前扩展版本 **1.6.1（客户端兼容修复）**；实验项目，不能保证胜率，尚未完成公网全流程验收。
 
-[下载1.6.0扩展](https://stepono927.github.io/Lorkan1/downloads/Lorkan1-extension-1.6.0.zip) · [最新战绩与复盘](https://stepono927.github.io/Lorkan1/reports/2026-11-08-next30/) · [完整重放数据](https://stepono927.github.io/Lorkan1/downloads/Lorkan1-next30-results.zip)
+[下载1.6.1扩展](https://stepono927.github.io/Lorkan1/downloads/Lorkan1-extension-1.6.1.zip) · [最新战绩与复盘](https://stepono927.github.io/Lorkan1/reports/2026-11-08-next30/) · [完整重放数据](https://stepono927.github.io/Lorkan1/downloads/Lorkan1-next30-results.zip)
 
 ## 安装最新版扩展
 
@@ -15,6 +15,14 @@
 5. 展开右侧小方块，逐个添加AI，然后点“一键勾选并启动全部AI”。本人保持手动。
 
 从0个开始、每次添加1个、上限25个。实际入房数量受原版房间容量和服务器接收限制；小地图可能出现友方包围、无扩张出口。
+
+## 1.6.1：修复更新后完全无法加载
+
+2026-11-21确认FrontWars现用入口为Cnf36eO3，旧入口CeqeFc1j及旧会话模块rQRgbkBy均已404。新版游戏实例由原版延迟加载器提供，旧kr导出现在是账号标识函数；不能只改文件名。已按公开客户端实际导出更新原版游戏、访客会话及大厅路由绑定，保留42.5缓存客户端兼容。
+
+统一菜单、控制器和安装包版本；未知客户端或加载失败会在菜单中持续显示具体错误，不再停留在无说明的等待状态。22个测试文件及语法检查通过；缓存原版引擎中四AI均选点、出兵，本局我方AI获胜。当前网页的绑定已进行只读静态核对与加载流程测试，尚未完成用户浏览器私人房间验收；这不是新的30局胜率结果。
+
+更新时停用旧版扩展，解压并加载1.6.1中包含manifest.json的文件夹。关闭全部旧AI页，刷新本人房间页，再在开局前重新添加AI并一键启动。若继续使用原加载目录，请先覆盖文件并在扩展管理页重新加载，再完成上述页面刷新。
 
 ## 1.6.0：登陆接应与受限海运追赶
 

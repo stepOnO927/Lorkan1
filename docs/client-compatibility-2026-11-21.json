@@ -1,0 +1,54 @@
+{
+  "date": "2026-11-21",
+  "extension": "1.6.1",
+  "observedEntry": "/assets/Cnf36eO3.js",
+  "oldEntryHTTP": [
+    {
+      "path": "/assets/CeqeFc1j.js",
+      "status": 404
+    },
+    {
+      "path": "/assets/rQRgbkBy.js",
+      "status": 404
+    }
+  ],
+  "checks": [
+    "hi is the actual lazy native-game getter, not the obsolete kr account identifier",
+    "gi invokes the original lazy module loader and supplies the shared default game instance",
+    "cached and fetch route exports match current entry",
+    "settings export is the original player-session singleton",
+    "auth state and persistent guest ID exports match original current client",
+    "current native module retains required seat and player interfaces"
+  ],
+  "files": [
+    {
+      "url": "https://frontwars.io/assets/Cnf36eO3.js",
+      "sha256": "cae907670ad2cad7ea6a872feb743ba8a06ccc95b4cd3d1997f92ca6ee46c733"
+    },
+    {
+      "url": "https://frontwars.io/assets/CeTf0rHg.js",
+      "sha256": "5841042736b115bf07f6c3d07d8523e8c684d95c77398105fcdac15f8c52f942"
+    },
+    {
+      "url": "https://frontwars.io/assets/CZ0rGw17.js",
+      "sha256": "cee5e32c1507b8bc943eb3cf2551e40c07e6123646c614bc74808b619add143c"
+    },
+    {
+      "url": "https://frontwars.io/assets/5ZuABa-y.js",
+      "sha256": "9d70f3dba60387333840a24693e8d5724d7a53c9ab5ce93c926ee20f11cf73ed"
+    }
+  ],
+  "scope": "Read-only public asset inspection and static export/contract verification. Original client assets are not included in the extension or public source. No live room was joined and no online game commands were sent.",
+  "validation": {
+    "testFiles": 22,
+    "syntaxPassed": true,
+    "cachedNativeGame": {
+      "seed": "LK30B-1108-11-98b27365",
+      "winner": "LorkanGuestAI3",
+      "allFourSpawnedAndAttacked": true,
+      "allFourAlive": true
+    },
+    "publicBrowserAcceptance": false,
+    "browserInspection": "Windows tool stopped because it could not reliably determine the current browser URL."
+  }
+}
