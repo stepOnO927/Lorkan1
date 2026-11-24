@@ -7,9 +7,11 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const extension = path.resolve(here, '../extension');
 const room = process.env.LORKAN_ROOM_ID;
 const count = Number(process.env.LORKAN_AI_COUNT ?? 25);
+const variant = process.env.LORKAN_AI_VARIANT ?? 'normal';
 const maxMinutes = Number(process.env.LORKAN_MAX_MINUTES ?? 90);
 if (!/^[A-Za-z0-9_-]{6,32}$/.test(room ?? '')) throw Error('Set LORKAN_ROOM_ID to a private room code');
 if (!Number.isInteger(count) || count < 1 || count > 25) throw Error('LORKAN_AI_COUNT must be 1 through 25');
+if (!['normal', 'cautious'].includes(variant)) throw Error('LORKAN_AI_VARIANT must be normal or cautious');
 if (!Number.isFinite(maxMinutes) || maxMinutes < 1 || maxMinutes > 300) throw Error('Invalid run duration');
 
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -72,7 +74,7 @@ async function addRole(role) {
     if (!message || message.room !== room || !Number.isInteger(message.role) || message.role < 0 || message.role > 25) return;
     for (const other of pages.values()) if (other.role !== role && other.relay && !other.page.isClosed()) other.page.evaluate(value => window.__lorkanRelay?.postMessage(value), message).catch(() => {});
   });
-  await page.goto(`https://frontwars.io/?game=${encodeURIComponent(room)}&lorkanRole=${role}`, { waitUntil: 'domcontentloaded', timeout: 45000 });
+  await page.goto(`https://frontwars.io/?game=${encodeURIComponent(room)}&lorkanRole=${role}&lorkanVariant=${variant}`, { waitUntil: 'domcontentloaded', timeout: 45000 });
   await page.evaluate(room => {
     window.__lorkanCloudStatuses = [];
     window.addEventListener('message', event => {
