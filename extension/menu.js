@@ -1,6 +1,6 @@
 (() => {
 'use strict';
-const MENU_VERSION='1.7.0',MAX_AI=25,roomFromURL=()=>new URL(location.href).searchParams.get('game'),validRoom=room=>/^[A-Za-z0-9_-]{6,32}$/.test(room??'');
+const MENU_VERSION='1.7.1',MAX_AI=25,roomFromURL=()=>new URL(location.href).searchParams.get('game'),validRoom=room=>/^[A-Za-z0-9_-]{6,32}$/.test(room??'');
 function lockChangedRoom(panel){const r=panel.shadowRoot;if(panel.dataset.needsReload!=='true')window.postMessage({source:'lorkan-private05-control',room:panel.dataset.room,action:'stop'},location.origin);panel.dataset.needsReload='true';r.querySelector('#route-warning').hidden=false;r.querySelector('#state').textContent='房间已切换，请刷新连接当前房间。';r.querySelector('#own').checked=false;for(const id of ['open-squad','start-squad','start','hunt-toggle','protect-squad','guard-owner','revenge-enable','revenge-target','revenge-input'])r.querySelector('#'+id).disabled=true;}
 function mount(){
  if(document.getElementById('lorkan-private05'))return;const room=roomFromURL();if(!validRoom(room))return;
