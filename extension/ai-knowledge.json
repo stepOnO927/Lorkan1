@@ -136,7 +136,7 @@
       "经济建筑避开强敌的直接边界，边境优先设防"
     ]
   },
-  "version": "1.7.0",
+  "version": "1.7.1",
   "infrastructureEconomy": {
     "samSearch": "dense owned city-local candidates, rotate capped native legality queries, validate native returned location",
     "expansion": "allow first two cities; third uncovered city only while SAM unaffordable and no heavy incoming attack; thereafter require coverage",
