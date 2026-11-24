@@ -7,6 +7,14 @@ on:
         description: Number of independent Lorkan guest seats (1-25)
         required: true
         default: '25'
+      ai_variant:
+        description: Strategy for all cloud guests (normal or cautious)
+        required: true
+        type: choice
+        options:
+          - cautious
+          - normal
+        default: cautious
       max_minutes:
         description: Stop after this many minutes
         required: true
@@ -39,6 +47,7 @@ jobs:
         env:
           LORKAN_ROOM_ID: ${{ secrets.LORKAN_PRIVATE_ROOM }}
           LORKAN_AI_COUNT: ${{ inputs.ai_count }}
+          LORKAN_AI_VARIANT: ${{ inputs.ai_variant }}
           LORKAN_MAX_MINUTES: ${{ inputs.max_minutes }}
           LORKAN_RESULT_PATH: cloud-private-room-result.json
         run: node scripts/cloud-private-room.mjs
