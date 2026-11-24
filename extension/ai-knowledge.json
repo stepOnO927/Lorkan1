@@ -125,7 +125,18 @@
       "先补防空缺口，再升级已有防空及储备进攻核武"
     ]
   },
-  "version": "1.6.1",
+  "cautiousConquest": {
+    "minimumArmyRatio": 1.5,
+    "openingCommitmentRatio": 1.5,
+    "rules": [
+      "低于目标总兵力1.5倍不发起国家进攻",
+      "首次进攻集中可用兵力，锁定一个高资源价值国家并持续推进",
+      "海运优先选择距离近且有城市、工厂或导弹井的目标",
+      "军舰必须使用原生客户端判定可建的海面位置；谨慎战术最多保留一艘，避免挤占经济预算",
+      "经济建筑避开强敌的直接边界，边境优先设防"
+    ]
+  },
+  "version": "1.7.0",
   "infrastructureEconomy": {
     "samSearch": "dense owned city-local candidates, rotate capped native legality queries, validate native returned location",
     "expansion": "allow first two cities; third uncovered city only while SAM unaffordable and no heavy incoming attack; thereafter require coverage",
@@ -219,3 +230,4 @@
     "lazyGameLoad": true
   }
 }
+
