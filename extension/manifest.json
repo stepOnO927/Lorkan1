@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Lorkan1 私人房间协作候选",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "私人房间0至25个独立访客AI：赛前选择普通或谨慎战术、一键启动、目标追杀、AI互保及护主。",
   "permissions": [
     "storage",
